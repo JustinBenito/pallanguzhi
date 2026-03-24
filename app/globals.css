@@ -1,26 +1,256 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Earthy South Indian Color Palette - Sandstone, Clay, Olive, Beige */
+  --sandstone-50: #faf8f5;
+  --sandstone-100: #f5f0e8;
+  --sandstone-200: #e8dcc9;
+  --sandstone-300: #d9c5a3;
+  --sandstone-400: #c9aa7d;
+  --sandstone-500: #b8925e;
+  --sandstone-600: #9a7548;
+  --sandstone-700: #7a5a38;
+  --sandstone-800: #5c432a;
+  --sandstone-900: #3d2c1c;
+
+  --clay-50: #faf6f4;
+  --clay-100: #f3ebe5;
+  --clay-200: #e6d3c5;
+  --clay-300: #d4b39e;
+  --clay-400: #c39278;
+  --clay-500: #a6735a;
+  --clay-600: #8a5d49;
+  --clay-700: #6d4839;
+  --clay-800: #52362b;
+  --clay-900: #38251d;
+
+  --olive-50: #f7f8f4;
+  --olive-100: #edeee5;
+  --olive-200: #d8dbc5;
+  --olive-300: #bfc39e;
+  --olive-400: #a5ab78;
+  --olive-500: #8a9159;
+  --olive-600: #717648;
+  --olive-700: #585c38;
+  --olive-800: #42452a;
+  --olive-900: #2c2e1c;
+
+  --beige-50: #faf9f7;
+  --beige-100: #f5f2ed;
+  --beige-200: #e8e2d7;
+  --beige-300: #d6ccbb;
+  --beige-400: #c4b69f;
+  --beige-500: #ac9a7f;
+  --beige-600: #8f7f68;
+  --beige-700: #716352;
+  --beige-800: #554a3e;
+  --beige-900: #3a322a;
+
+  /* Red-brown wooden slate for counters */
+  --wood-slate: #8b4513;
+  --wood-dark: #654321;
+  --wood-light: #a0522d;
+
+  --background: var(--sandstone-50);
+  --foreground: var(--clay-900);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Font families */
+  --font-instrument: var(--font-instrument-serif);
+  --font-inter: var(--font-inter);
+
+  /* Custom color palette */
+  --color-sandstone-50: var(--sandstone-50);
+  --color-sandstone-100: var(--sandstone-100);
+  --color-sandstone-200: var(--sandstone-200);
+  --color-sandstone-300: var(--sandstone-300);
+  --color-sandstone-400: var(--sandstone-400);
+  --color-sandstone-500: var(--sandstone-500);
+  --color-sandstone-600: var(--sandstone-600);
+  --color-sandstone-700: var(--sandstone-700);
+  --color-sandstone-800: var(--sandstone-800);
+  --color-sandstone-900: var(--sandstone-900);
+
+  --color-clay-50: var(--clay-50);
+  --color-clay-100: var(--clay-100);
+  --color-clay-200: var(--clay-200);
+  --color-clay-300: var(--clay-300);
+  --color-clay-400: var(--clay-400);
+  --color-clay-500: var(--clay-500);
+  --color-clay-600: var(--clay-600);
+  --color-clay-700: var(--clay-700);
+  --color-clay-800: var(--clay-800);
+  --color-clay-900: var(--clay-900);
+
+  --color-olive-50: var(--olive-50);
+  --color-olive-100: var(--olive-100);
+  --color-olive-200: var(--olive-200);
+  --color-olive-300: var(--olive-300);
+  --color-olive-400: var(--olive-400);
+  --color-olive-500: var(--olive-500);
+  --color-olive-600: var(--olive-600);
+  --color-olive-700: var(--olive-700);
+  --color-olive-800: var(--olive-800);
+  --color-olive-900: var(--olive-900);
+
+  --color-beige-50: var(--beige-50);
+  --color-beige-100: var(--beige-100);
+  --color-beige-200: var(--beige-200);
+  --color-beige-300: var(--beige-300);
+  --color-beige-400: var(--beige-400);
+  --color-beige-500: var(--beige-500);
+  --color-beige-600: var(--beige-600);
+  --color-beige-700: var(--beige-700);
+  --color-beige-800: var(--beige-800);
+  --color-beige-900: var(--beige-900);
+
+  --color-wood-slate: var(--wood-slate);
+  --color-wood-dark: var(--wood-dark);
+  --color-wood-light: var(--wood-light);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-instrument-serif), serif;
+}
+
+/* Active state for buttons - scale down effect */
+.active\:scale-98:active {
+  transform: scale(0.98);
+}
+
+/* Skeumorphic button styles */
+.skeuomorph-btn {
+  position: relative;
+  /* Inset shadow for depth */
+  box-shadow:
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 2px 2px rgba(255, 255, 255, 0.3);
+  transition: all 0.15s ease;
+}
+
+.skeuomorph-btn:active {
+  transform: scale(0.98);
+  box-shadow:
+    inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+/* Floating animation for header */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Seed drop animation */
+@keyframes seedDrop {
+  0% {
+    transform: translateY(-20px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(5px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.seed-drop {
+  animation: seedDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Pulse glow effect */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(138, 145, 89, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(138, 145, 89, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Win celebration animation */
+@keyframes celebrate {
+  0% {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.celebrate {
+  animation: celebrate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* Score board gradient */
+.score-gradient {
+  background: linear-gradient(135deg, var(--clay-200) 0%, var(--clay-300) 100%);
+}
+
+.score-gradient-user {
+  background: linear-gradient(135deg, var(--sandstone-300) 0%, var(--sandstone-400) 100%);
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Disable default dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--sandstone-50);
+    --foreground: var(--clay-900);
+  }
 }
