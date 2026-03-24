@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import {
   IconRefresh,
@@ -9,6 +9,7 @@ import {
   IconVolumeOff,
   IconTrophy,
 } from "@tabler/icons-react";
+import confetti from "canvas-confetti";
 import { useGame } from "@/hooks/useGame";
 import { Button } from "./Button";
 import { RulesModal } from "./RulesModal";
@@ -39,6 +40,43 @@ export const GameBoard = () => {
   const [sliderValue, setSliderValue] = useState(70); // Default speed
 
   const stats = loadStats();
+
+  // Trigger confetti when user wins
+  useEffect(() => {
+    if (gameState.gameOver && gameState.winner === 0) {
+      // Initial burst
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
+      // Side bursts
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+      }, 250);
+
+      // Final burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 100,
+          spread: 100,
+          origin: { y: 0.7 },
+        });
+      }, 500);
+    }
+  }, [gameState.gameOver, gameState.winner]);
 
   // Memoize hole assignments
   const holeAssignments = useMemo(() => {

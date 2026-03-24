@@ -49,23 +49,11 @@ export const useGame = () => {
       lastPitIndex: number,
       currentPlayer: 0 | 1
     ): { newPits: number[]; newScores: [number, number]; captured: boolean } => {
-      console.log('🎯 Capture Check:', {
-        lastPitIndex,
-        currentPlayer,
-        seedsInLastPit: pits[lastPitIndex],
-        isPlayerPit: isPlayerPit(lastPitIndex, currentPlayer),
-      });
-
       // Only capture if last seed lands in player's own pit with exactly 1 seed (after drop)
       if (pits[lastPitIndex] === 1 && isPlayerPit(lastPitIndex, currentPlayer)) {
         // Check the NEXT pit (anti-clockwise direction) for capture
         const nextPit = (lastPitIndex + 1) % TOTAL_PITS;
         const capturedSeeds = pits[nextPit];
-
-        console.log('✅ Capture conditions met! Checking next pit:', {
-          nextPit,
-          seedsInNextPit: capturedSeeds,
-        });
 
         if (capturedSeeds > 0) {
           const newPits = [...pits];
@@ -74,14 +62,9 @@ export const useGame = () => {
           newScores[currentPlayer] += capturedSeeds;
           newPits[nextPit] = 0;
 
-          console.log('🎉 CAPTURED!', capturedSeeds, 'seeds from pit', nextPit);
           playCapture();
           return { newPits, newScores, captured: true };
-        } else {
-          console.log('❌ Next pit is empty, no capture');
         }
-      } else {
-        console.log('❌ Capture conditions not met');
       }
 
       return { newPits: pits, newScores: scores, captured: false };
