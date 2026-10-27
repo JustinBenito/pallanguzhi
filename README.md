@@ -30,3 +30,14 @@ python3 -m http.server 5173
 | `js/paati.js` | Paati's lines |
 | `js/audio.js` | synthesized sounds (no audio files) |
 | `assets/` | painted banana, lotus and sozhi cut-outs |
+
+## SEO pages
+
+Articles, the `/learn` hub, the Tamil guide, `sitemap.xml`, `robots.txt` and OG images are generated:
+
+```sh
+python3 -m http.server 5173 &          # og.html renders against the local server
+python3 scripts/build_pages.py --og    # omit --og to skip re-rendering images
+```
+
+Content lives in `scripts/build_pages.py`. Change `SITE` there and in `index.html` if the domain changes.

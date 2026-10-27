@@ -1,0 +1,72 @@
+<!doctype html>
+<!-- OG image template (1200×630). Rendered by scripts/build_pages.py via headless Chromium.
+     Query params: kicker, title, ta, sub -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,100,1&family=Jost:wght@400;500;600;700&family=Arima:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/style.css" />
+<style>
+  html, body { width: 1200px; height: 630px; margin: 0; overflow: hidden; background: var(--mustard); }
+  .og { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, #fbf4e4, #efe0bf 75%); }
+  .og .paper-grain { opacity: .6; }
+  .og .frame { z-index: 5; }
+  .banana { position: absolute; right: -150px; bottom: -40px; width: 400px; opacity: .95; }
+  .lotus { position: absolute; left: -24px; bottom: -40px; width: 170px; }
+  .copy { position: absolute; left: 86px; top: 78px; width: 610px; }
+  .kicker { font: 600 17px/1 var(--sans); letter-spacing: 4px; text-transform: uppercase; color: var(--rust-d); }
+  .title { margin: 16px 0 0; font-family: var(--serif); font-weight: 650; font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; line-height: .98; color: var(--ink); letter-spacing: -1px; }
+  .ta { margin-top: 14px; font: 700 30px/1.2 var(--tamil); color: var(--rust); }
+  .sub { margin-top: 18px; font: 500 24px/1.35 var(--sans); color: var(--ink-2); max-width: 560px; }
+  .url { position: absolute; left: 86px; bottom: 66px; padding: 10px 18px; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--rust); color: var(--paper); font: 600 19px/1 var(--sans); letter-spacing: .5px; box-shadow: 3px 4px 0 var(--ink); }
+  .art { position: absolute; right: 110px; top: 300px; width: 380px; z-index: 2; }
+  .og-board { width: 380px; filter: drop-shadow(0 16px 20px rgba(60, 20, 0, .3)); }
+  .face { position: absolute; left: 50%; top: -140px; width: 170px; height: 170px; margin-left: -85px; border-radius: 50%; background: var(--mustard); border: 3px solid var(--ink); overflow: hidden; box-shadow: 4px 5px 0 var(--ink); }
+  .face svg { width: 100%; height: 100%; }
+  .badge { position: absolute; right: -30px; top: -160px; padding: 8px 14px; background: var(--paper-l); border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 3px 4px 0 var(--ink); font: 600 italic 17px/1.25 var(--serif); transform: rotate(5deg); max-width: 190px; }
+</style>
+</head>
+<body>
+<div id="defs"></div>
+<div class="og">
+  <div class="paper-grain"></div>
+  <img class="banana" src="../assets/banana.webp" alt="" />
+  <img class="lotus" src="../assets/lotus.webp" alt="" />
+  <div class="copy">
+    <div class="kicker" id="k"></div>
+    <h1 class="title" id="t"></h1>
+    <div class="ta" id="ta"></div>
+    <div class="sub" id="s"></div>
+  </div>
+  <div class="art">
+    <div class="face" id="face"></div>
+    <div class="badge">“Vaa kanna, oru game aadalaam!”</div>
+    <div class="og-board" id="board"></div>
+  </div>
+  <div class="url">▶ Play free · pallanguzhi.vercel.app</div>
+</div>
+<script src="../js/art.js"></script>
+<script>
+  const q = new URLSearchParams(location.search);
+  const A = PZ.art;
+  document.getElementById('defs').innerHTML = A.DEFS;
+  document.querySelector('.og').insertAdjacentHTML('beforeend', A.frame(1200, 630, 22, 5.5, 44));
+  document.getElementById('face').innerHTML = A.paati().replace('viewBox="0 0 300 340"', 'viewBox="76 30 148 148"');
+  document.querySelector('#face .paati').dataset.mood = 'happy';
+  document.getElementById('board').innerHTML = A.boardIcon();
+  const title = q.get('title') || 'Pallanguzhi';
+  const t = document.getElementById('t');
+  t.textContent = title;
+  t.style.fontSize = (title.length <= 12 ? 104 : title.length <= 28 ? 68 : title.length <= 44 ? 56 : 48) + 'px';
+  const k = document.getElementById('k');
+  k.textContent = q.get('kicker') || 'The Tamil seed game';
+  if (/[\u0B80-\u0BFF]/.test(k.textContent)) { k.style.letterSpacing = '0'; k.style.fontFamily = 'var(--tamil)'; k.style.fontSize = '20px'; }
+  document.getElementById('ta').textContent = q.get('ta') || 'பல்லாங்குழி';
+  document.getElementById('s').textContent = q.get('sub') || '';
+</script>
+<style>
+  /* moods need the game stylesheet's paati rules; keep the face still for a crisp render */
+  .paati .p-head, .paati .p-jimikki, .paati .fx { animation: none !important; }
+</style>
+</body>
+</html>

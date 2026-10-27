@@ -669,6 +669,7 @@
     pointer(null);
     sayId++;
     showScreen('screen-title');
+    if (location.hash) history.replaceState(null, '', location.pathname);
   }
 
   /* ---------------- tutorial: Paati's pathshala ---------------- */
@@ -936,4 +937,14 @@
   applySettings();
   syncView(PZ.newState());
   renderAll();
+
+  // deep links from the articles: /#play, /#learn, /#rules
+  function route() {
+    const h = location.hash.slice(1);
+    if (h === 'play') startGame();
+    else if (h === 'learn') startTutorial();
+    else if (h === 'rules') openRules();
+  }
+  addEventListener('hashchange', route);
+  route();
 })();

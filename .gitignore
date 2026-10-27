@@ -1,2 +1,4 @@
 .DS_Store
 node_modules/
+scripts/.og.png
+__pycache__/

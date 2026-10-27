@@ -186,13 +186,17 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .chips button:focus-visible { outline: 2px solid var(--rust); outline-offset: 1px; }
 .seed-swatch { position: relative; display: block; }
 
-.t-rules-link {
-  position: absolute; top: 644px; left: 50%; transform: translateX(-50%);
-  font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--rust-d);
-  border-bottom: 1.5px dashed currentColor; padding-bottom: 1px;
+.t-links {
+  position: absolute; top: 640px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; white-space: nowrap;
+  font-family: var(--serif); font-style: italic; font-size: 17px;
   animation: fadeUp .8s .65s var(--ease-out) both;
 }
-.t-rules-link:hover { color: var(--ink); }
+.t-links a, .t-links button { color: var(--rust-d); text-decoration: none; border-bottom: 1.5px dashed currentColor; padding-bottom: 1px; font: inherit; }
+.t-links a:hover, .t-links button:hover { color: var(--ink); }
+.t-links span { color: var(--rust-d); opacity: .5; }
+.t-links a[lang='ta'] { font-family: var(--tamil); font-style: normal; font-size: 15px; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ==========================================================================
    GAME SCENE

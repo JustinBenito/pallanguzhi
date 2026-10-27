@@ -1,0 +1,16 @@
+{
+  "name": "Pallanguzhi · play with Sheila Paati",
+  "short_name": "Pallanguzhi",
+  "description": "Play Pallanguzhi, the Tamil seed game, free in your browser.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#E7A33A",
+  "theme_color": "#E7A33A",
+  "lang": "en",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
