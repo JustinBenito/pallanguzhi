@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pallanguzhi · play with Sheila Paati</title>
+  <meta name="description" content="Pallanguzhi, the old Tamil seed game, played on a carved wooden board against Sheila Paati. She teaches you as you play." />
+  <meta name="theme-color" content="#E7A33A" />
+  <meta property="og:title" content="Pallanguzhi · play with Sheila Paati" />
+  <meta property="og:description" content="Fourteen kuzhis, seventy seeds and one very competitive paati." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B4462B'/%3E%3Cellipse cx='32' cy='34' rx='18' ry='15' fill='%233A160B'/%3E%3Ccircle cx='27' cy='33' r='5' fill='%23D6301F'/%3E%3Ccircle cx='37' cy='36' r='5' fill='%23A3150F'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,100,1&family=Jost:wght@400;500;600;700&family=Arima:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-seed="manjadi">
+  <div id="defs"></div>
+
+  <div id="viewport">
+    <div id="stage">
+      <!-- ================= TITLE ================= -->
+      <section id="screen-title" class="screen is-active">
+        <div class="paper-grain"></div>
+        <img class="t-banana left" src="assets/banana.webp" alt="" />
+        <img class="t-banana right" src="assets/banana.webp" alt="" />
+        <img class="t-lotus left" src="assets/lotus.webp" alt="" />
+        <img class="t-lotus right" src="assets/lotus.webp" alt="" />
+
+        <header class="t-badge">
+          <svg viewBox="0 0 560 170" class="badge-shape" aria-hidden="true">
+            <path d="M40 30 Q40 10 70 12 L250 18 Q280 2 310 18 L490 12 Q520 10 520 30 L524 140 Q524 160 494 158 L310 152 Q280 168 250 152 L66 158 Q36 160 36 140Z" fill="#B4462B"/>
+            <path d="M52 34 Q52 22 72 24 L252 30 Q280 16 308 30 L488 24 Q508 22 508 34 L512 136 Q512 148 492 146 L308 140 Q280 154 252 140 L68 146 Q48 148 48 136Z" fill="none" stroke="#F3E6CC" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="2 5"/>
+          </svg>
+          <span class="badge-ta left">பல்லாங்குழி</span>
+          <h1 class="badge-title">Pallanguzhi</h1>
+          <span class="badge-sub">✦ a game of seeds ✦</span>
+          <span class="badge-ta right">பல்லாங்குழி</span>
+        </header>
+        <p class="t-tagline">Fourteen kuzhis, seventy seeds and one very competitive paati.</p>
+
+        <div class="t-cards">
+          <button class="t-card primary" data-action="play">
+            <span class="t-face" aria-hidden="true"></span>
+            <span class="t-card-kicker">Play against</span>
+            <span class="t-card-title">Sheila Paati</span>
+            <span class="t-card-note">86 yrs · unbeaten since 1952</span>
+          </button>
+          <button class="t-card" data-action="learn">
+            <span class="t-icon learn" aria-hidden="true"></span>
+            <span class="t-card-kicker">New here?</span>
+            <span class="t-card-title">Learn in 2 mins</span>
+            <span class="t-card-note">Paati’s pathshala, hands-on</span>
+          </button>
+          <button class="t-card soon" disabled aria-disabled="true">
+            <span class="t-icon friends" aria-hidden="true"></span>
+            <span class="t-card-kicker">With a friend</span>
+            <span class="t-card-title">Multiplayer</span>
+            <span class="stamp">Coming soon</span>
+          </button>
+        </div>
+
+        <div class="t-options">
+          <div class="opt">
+            <span class="opt-label">Paati’s mood</span>
+            <div class="chips" data-opt="level">
+              <button data-v="easy">Chellam</button>
+              <button data-v="medium">Konjam serious</button>
+              <button data-v="hard">Paati mode</button>
+            </div>
+          </div>
+          <div class="opt">
+            <span class="opt-label">Play with</span>
+            <div class="chips" data-opt="seed">
+              <button data-v="manjadi"><i class="seed-swatch manjadi"></i>Manjadi</button>
+              <button data-v="puli"><i class="seed-swatch puli"></i>Puli kottai</button>
+              <button data-v="sozhi"><i class="seed-swatch sozhi"></i>Sozhi</button>
+            </div>
+          </div>
+        </div>
+        <button class="t-rules-link" data-action="rules">Read the rules first →</button>
+      </section>
+
+      <!-- ================= GAME ================= -->
+      <section id="screen-game" class="screen">
+        <div class="wall"><div class="wall-grain"></div></div>
+        <div class="table"><div class="table-grain"></div></div>
+        <div class="lamp-slot l1"></div>
+        <div class="lamp-slot l2"></div>
+
+        <div class="g-logo">
+          <span class="g-logo-en">Pallanguzhi</span>
+          <span class="g-logo-ta">பல்லாங்குழி</span>
+        </div>
+        <div class="g-tools">
+          <button class="tool" data-action="rules" title="Rules" aria-label="Rules">?</button>
+          <button class="tool" data-action="speed" title="Speed" aria-label="Animation speed"><span class="speed-label">1×</span></button>
+          <button class="tool" data-action="sound" title="Sound" aria-label="Toggle sound"><svg viewBox="0 0 24 24" class="ico-sound"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="waves" d="M16 8.5c1.5 1.8 1.5 5.2 0 7M18.5 6c3 3.2 3 8.8 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>
+          <button class="tool" data-action="home" title="Menu" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z" fill="currentColor"/></svg></button>
+        </div>
+
+        <div class="nameplate">
+          <i class="screw l"></i><i class="screw r"></i>
+          <span class="np-name">Sheila Paati</span>
+          <span class="np-mood"></span>
+        </div>
+
+        <div class="paati-slot"></div>
+        <div class="bubble" aria-live="polite">
+          <p class="bubble-t"></p>
+          <p class="bubble-e"></p>
+          <div class="bubble-actions"></div>
+          <span class="bubble-dots"><i></i><i></i><i></i></span>
+        </div>
+
+        <div class="board" id="board">
+          <div class="board-grain"></div>
+          <div class="board-inlay"></div>
+          <div class="store" data-store="1"><div class="store-seeds"></div><span class="store-n">0</span></div>
+          <div class="store" data-store="0"><div class="store-seeds"></div><span class="store-n">0</span></div>
+          <div class="pits"></div>
+          <span class="brass c1"></span><span class="brass c2"></span><span class="brass c3"></span><span class="brass c4"></span>
+        </div>
+
+        <div class="store-label s1"><b>Paati’s kuzhi</b><span class="sl-n" data-score="1">0</span></div>
+        <div class="store-label s0"><b>Your kuzhi</b><span class="sl-n" data-score="0">0</span></div>
+        <div class="row-label top">Paati’s row ← sowing</div>
+        <div class="row-label bottom">Your row · sowing →</div>
+
+        <div class="narrate">
+          <span class="narrate-chip"></span>
+          <p class="narrate-text"></p>
+          <span class="narrate-hand"></span>
+        </div>
+
+        <div class="fly-layer"></div>
+        <div class="hand"><div class="hand-seeds"></div><span class="hand-n">0</span></div>
+        <div class="pointer" aria-hidden="true"></div>
+      </section>
+
+      <!-- ================= RULES ================= -->
+      <div class="overlay" id="rules" hidden>
+        <div class="sheet rules-sheet">
+          <button class="sheet-close" data-action="close-rules" aria-label="Close">×</button>
+          <span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>
+          <div class="rules-kicker">How to play · <span class="ta">விளையாடும் முறை</span></div>
+          <div class="rules-pages"></div>
+          <div class="rules-nav">
+            <button class="btn ghost" data-action="rules-prev">← Back</button>
+            <div class="rules-dots"></div>
+            <button class="btn" data-action="rules-next">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= END ================= -->
+      <div class="overlay" id="end" hidden>
+        <div class="petals"></div>
+        <div class="sheet end-sheet">
+          <div class="end-face"></div>
+          <div class="end-kicker"></div>
+          <h2 class="end-title"></h2>
+          <div class="end-score">
+            <div><span class="es-n" data-end="0">0</span><span class="es-l">You</span></div>
+            <span class="es-vs">vs</span>
+            <div><span class="es-n" data-end="1">0</span><span class="es-l">Paati</span></div>
+          </div>
+          <p class="end-line"></p>
+          <p class="end-line-e"></p>
+          <div class="end-actions">
+            <button class="btn" data-action="again">Innoru round!</button>
+            <button class="btn ghost" data-action="home">Menu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rotate">
+    <div class="rotate-phone"></div>
+    <p><b>Thirupu, kanna!</b> Turn your phone sideways.<br /><span>Pallanguzhi needs a wide board.</span></p>
+  </div>
+
+  <script src="js/engine.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/paati.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
