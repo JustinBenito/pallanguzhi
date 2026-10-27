@@ -11,7 +11,7 @@ Edit content here, re-run, commit the generated .html files.
 import html, json, os, subprocess, sys, urllib.parse
 from datetime import date
 
-SITE = "https://pallanguzhi.vercel.app"
+SITE = "https://www.pallanguzhi.com"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TODAY = date.today().isoformat()
 PUBLISHED = "2026-10-27"
@@ -91,12 +91,12 @@ PAGES = []
 
 PAGES.append(dict(
     slug="how-to-play-pallanguzhi", lang="en", kicker="How to play", nav="How to play",
-    title="How to Play Pallanguzhi: Rules, Setup & Scoring (with Diagrams)",
+    title="How to Play Pallanguzhi: Rules & Scoring with Diagrams",
     h1="How to Play Pallanguzhi",
     ta="பல்லாங்குழி விளையாடுவது எப்படி",
     og_title="How to Play Pallanguzhi: Rules & Scoring",
     og_sub="Setup, sowing, relays, captures and pasu, explained with diagrams.",
-    description="Learn how to play Pallanguzhi (pallankuzhi), the Tamil mancala game: board setup, sowing, relay moves, captures, the pasu rule and how to win, with clear diagrams.",
+    description="Learn how to play Pallanguzhi (pallankuzhi), the Tamil mancala game: setup, sowing, relays, captures, the pasu rule and scoring, with diagrams.",
     lede="Pallanguzhi is a two-player Tamil mancala game played with 14 pits and a handful of seeds. The rules fit on a postcard, but the game rewards careful counting. Here is everything you need to play your first game in five minutes.",
     alt_lang="ta/pallanguzhi",
     body=lambda: f"""
@@ -161,17 +161,17 @@ HOWTO_FAQ = [
     ("Which direction do you sow in Pallanguzhi?", "Anticlockwise: left to right along your own row, then right to left along your opponent’s row."),
     ("How do you win Pallanguzhi?", "Collect more seeds than your opponent. With 70 seeds, more than 35 wins. The round ends when the player to move has no seeds on their row."),
     ("Is Pallanguzhi the same as mancala?", "Pallanguzhi is a member of the mancala family, like Oware and Kalah, but it has its own rules, including relay sowing, capturing past an empty pit and the pasu rule."),
-    ("Can I play Pallanguzhi online?", "Yes. You can play Pallanguzhi online for free at pallanguzhi.vercel.app against Sheila Paati, an AI grandmother with three difficulty levels and a built-in interactive tutorial."),
+    ("Can I play Pallanguzhi online?", "Yes. You can play Pallanguzhi online for free at pallanguzhi.com against Sheila Paati, an AI grandmother with three difficulty levels and a built-in interactive tutorial."),
 ]
 
 PAGES.append(dict(
     slug="pallanguzhi-history", lang="en", kicker="History & culture", nav="History",
-    title="Pallanguzhi History: The Tamil Mancala Game Played for Generations",
+    title="Pallanguzhi History: The Tamil Mancala Through Time",
     h1="The History of Pallanguzhi",
     ta="பல்லாங்குழியின் வரலாறு",
     og_title="The History of Pallanguzhi",
     og_sub="Where the Tamil game of many pits comes from, and why it still matters.",
-    description="The history and cultural significance of Pallanguzhi, the traditional Tamil mancala board game: its roots, boards, seeds, festivals and the women who kept it alive.",
+    description="The history of Pallanguzhi, the traditional Tamil mancala game: its roots, carved boards, manjadi seeds, festivals and the women who kept it alive.",
     lede="Long before screens, Tamil homes had a game of many pits. Pallanguzhi has been passed down from grandmothers to grandchildren for generations, and its story is tied up with festivals, kitchens, courtyards and counting.",
     body=lambda: f"""
 {img("/assets/img/pallanguzhi-online-home.webp", "Pallanguzhi online home screen with banana trees, lotus flowers and Sheila Paati", "Pallanguzhi, reimagined for the browser.", eager=True)}
@@ -216,7 +216,7 @@ PAGES.append(dict(
     ta="பல்லாங்குழி வெல்லும் யுக்திகள்",
     og_title="Pallanguzhi Strategy: 9 Tips to Win",
     og_sub="Count ahead, set traps, farm pasus and win the endgame.",
-    description="Pallanguzhi strategy guide: 9 practical tips to win more often, from counting your landing pit and setting capture traps to using pasu and managing the endgame.",
+    description="Pallanguzhi strategy: 9 practical tips to win more often, from counting your landing pit and setting capture traps to farming pasus and the endgame.",
     lede="Pallanguzhi looks like luck until you start counting. These nine tips are what separate a beginner from someone who beats their grandmother, or at least makes her put down her coffee.",
     body=lambda: f"""
 <h2>1. Always count your landing pit</h2>
@@ -254,12 +254,12 @@ PAGES.append(dict(
 
 PAGES.append(dict(
     slug="pallanguzhi-names-and-spellings", lang="en", kicker="Names & spellings", nav="Names",
-    title="Pallankuzhi, Pallanguli, Ali Guli Mane: Every Name for Pallanguzhi",
+    title="Pallankuzhi, Pallanguli & Every Name for Pallanguzhi",
     h1="Pallanguzhi, Pallankuzhi or Pallanguli? Every Name for the Game",
     ta="பல்லாங்குழி: பல பெயர்கள்",
     og_title="Every Name for Pallanguzhi",
     og_sub="Pallankuzhi, pallanguli, Ali Guli Mane, Vamana Guntalu, Kuzhipara and more.",
-    description="Pallanguzhi, pallankuzhi, pallanguli, pallankuli, palanguzhi: why the Tamil game has so many spellings, and its names in Kannada, Telugu, Malayalam and Tulu.",
+    description="Pallanguzhi, pallankuzhi, pallanguli, pallankuli: why the Tamil game has so many spellings, and its names in Kannada, Telugu, Malayalam and Tulu.",
     lede="Search for this game and you’ll find a dozen spellings. They’re all the same Tamil word, பல்லாங்குழி, written in English letters in different ways. Here’s why, and what neighbouring languages call it.",
     body=lambda: f"""
 <h2>Why so many spellings?</h2>
@@ -304,7 +304,7 @@ PAGES.append(dict(
 
 PAGES.append(dict(
     slug="pallanguzhi-board-and-seeds", lang="en", kicker="Board & seeds", nav="Board & seeds",
-    title="The Pallanguzhi Board and Seeds: Manjadi, Tamarind & Cowries",
+    title="Pallanguzhi Board & Seeds: Manjadi, Tamarind, Cowries",
     h1="The Pallanguzhi Board & Seeds",
     ta="பல்லாங்குழி பலகையும் விதைகளும்",
     og_title="The Pallanguzhi Board & Seeds",
@@ -344,7 +344,7 @@ PAGES.append(dict(
 
 PAGES.append(dict(
     slug="ta/pallanguzhi", lang="ta", kicker="தமிழில்", nav="தமிழ்",
-    title="பல்லாங்குழி விளையாடுவது எப்படி? விதிமுறைகள், வரலாறு | Pallanguzhi in Tamil",
+    title="பல்லாங்குழி விளையாடுவது எப்படி? | Pallanguzhi in Tamil",
     h1="பல்லாங்குழி விளையாடுவது எப்படி?",
     ta="Pallanguzhi rules in Tamil",
     og_title="பல்லாங்குழி விளையாடுவது எப்படி?",
@@ -403,12 +403,12 @@ PAGES.append(dict(
 ))
 
 HUB = dict(slug="learn", lang="en", kicker="Learn", nav="Learn",
-           title="Learn Pallanguzhi: Rules, History, Strategy & Tamil Guide",
+           title="Learn Pallanguzhi: Rules, History, Strategy & Tamil",
            h1="Learn Pallanguzhi",
            ta="பல்லாங்குழி கற்றுக்கொள்ளுங்கள்",
            og_title="Learn Pallanguzhi",
            og_sub="Rules, history, strategy, names and a Tamil guide, all in one place.",
-           description="Everything about Pallanguzhi (pallankuzhi), the Tamil mancala game: rules, history, strategy, board and seeds, names and spellings, and a full guide in Tamil.",
+           description="Everything about Pallanguzhi (pallankuzhi), the Tamil mancala game: rules, strategy, history, board and seeds, spellings, and a guide in Tamil.",
            lede="Guides to Pallanguzhi, the Tamil game of many pits. Start with the rules, then go deeper, or skip ahead and play.")
 
 # ---------------------------------------------------------------- page shell
@@ -445,9 +445,11 @@ def head(p, extra_ld):
 <meta property="og:site_name" content="Pallanguzhi" />
 <meta property="og:locale" content="{'ta_IN' if p['lang'] == 'ta' else 'en_IN'}" />
 <meta property="og:title" content="{t}" />
-<meta property="og:description" content="{d}" />
+<meta property="og:description" content="{html.escape(p['og_sub'])}" />
 <meta property="og:url" content="{canonical}" />
 <meta property="og:image" content="{ogi}" />
+<meta property="og:image:secure_url" content="{ogi}" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="{html.escape(p['og_title'])}" />
@@ -455,7 +457,7 @@ def head(p, extra_ld):
 <meta property="article:modified_time" content="{TODAY}" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{t}" />
-<meta name="twitter:description" content="{d}" />
+<meta name="twitter:description" content="{html.escape(p['og_sub'])}" />
 <meta name="twitter:image" content="{ogi}" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -591,9 +593,21 @@ def write(rel, text):
         f.write(text)
     print("wrote", rel)
 
+OG_VOICE = {  # Paati's mood + line on each page's share image
+    "": ("happy", "“Vaa kanna, oru game aadalaam!”"),
+    "learn": ("happy", "“Paati solli tharen, vaa!”"),
+    "how-to-play-pallanguzhi": ("normal", "“Rendu nimisham dhaan. Easy!”"),
+    "pallanguzhi-strategy": ("smug", "“Ennoda secrets ellam inga.”"),
+    "pallanguzhi-history": ("happy", "“En paati-yum idhu dhaan aadinaanga!”"),
+    "pallanguzhi-names-and-spellings": ("think", "“Zha-vaa, la-vaa? Ellaam onnu dhaan!”"),
+    "pallanguzhi-board-and-seeds": ("normal", "“Manjadi dhaan best, kanna.”"),
+    "ta/pallanguzhi": ("happy", "“வா கண்ணா, விளையாடலாம்!”"),
+}
+
 def render_og(slug, title, kicker, sub, ta=None):
     from PIL import Image
-    q = {"title": title, "kicker": kicker, "sub": sub}
+    mood, say = OG_VOICE.get(slug, ("happy", ""))
+    q = {"title": title, "kicker": kicker, "sub": sub, "mood": mood, "say": say}
     if ta:
         q["ta"] = ta
     tmp = os.path.join(ROOT, "scripts", ".og.png")
@@ -606,7 +620,16 @@ def render_og(slug, title, kicker, sub, ta=None):
     os.remove(tmp)
     print("og", out)
 
+def check(p):
+    t, d, o = p["title"], p["description"], p["og_sub"]
+    probs = [x for x in (f"title {len(t)}>60" if len(t) > 60 else "", f"desc {len(d)}>155" if len(d) > 155 else "",
+                         f"social {len(o)}>125" if len(o) > 125 else "") if x]
+    if probs:
+        raise SystemExit(f"{p['slug']}: " + ", ".join(probs))
+
 if __name__ == "__main__":
+    for p in PAGES + [HUB]:
+        check(p)
     for p in PAGES:
         write(p["slug"] + ".html", build_article(p))
     write("learn.html", build_hub())

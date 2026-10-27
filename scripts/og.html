@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- OG image template (1200×630). Rendered by scripts/build_pages.py via headless Chromium.
-     Query params: kicker, title, ta, sub -->
+<!-- OG image template (1200×630), rendered by scripts/build_pages.py --og via headless Chromium.
+     Query params: kicker, title, ta, sub, mood (normal|happy|think|smug|shock), say -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -8,65 +8,94 @@
 <link rel="stylesheet" href="../css/style.css" />
 <style>
   html, body { width: 1200px; height: 630px; margin: 0; overflow: hidden; background: var(--mustard); }
-  .og { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, #fbf4e4, #efe0bf 75%); }
-  .og .paper-grain { opacity: .6; }
-  .og .frame { z-index: 5; }
-  .banana { position: absolute; right: -150px; bottom: -40px; width: 400px; opacity: .95; }
-  .lotus { position: absolute; left: -24px; bottom: -40px; width: 170px; }
-  .copy { position: absolute; left: 86px; top: 78px; width: 610px; }
-  .kicker { font: 600 17px/1 var(--sans); letter-spacing: 4px; text-transform: uppercase; color: var(--rust-d); }
-  .title { margin: 16px 0 0; font-family: var(--serif); font-weight: 650; font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; line-height: .98; color: var(--ink); letter-spacing: -1px; }
-  .ta { margin-top: 14px; font: 700 30px/1.2 var(--tamil); color: var(--rust); }
-  .sub { margin-top: 18px; font: 500 24px/1.35 var(--sans); color: var(--ink-2); max-width: 560px; }
-  .url { position: absolute; left: 86px; bottom: 66px; padding: 10px 18px; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--rust); color: var(--paper); font: 600 19px/1 var(--sans); letter-spacing: .5px; box-shadow: 3px 4px 0 var(--ink); }
-  .art { position: absolute; right: 110px; top: 300px; width: 380px; z-index: 2; }
-  .og-board { width: 380px; filter: drop-shadow(0 16px 20px rgba(60, 20, 0, .3)); }
-  .face { position: absolute; left: 50%; top: -140px; width: 170px; height: 170px; margin-left: -85px; border-radius: 50%; background: var(--mustard); border: 3px solid var(--ink); overflow: hidden; box-shadow: 4px 5px 0 var(--ink); }
-  .face svg { width: 100%; height: 100%; }
-  .badge { position: absolute; right: -30px; top: -160px; padding: 8px 14px; background: var(--paper-l); border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 3px 4px 0 var(--ink); font: 600 italic 17px/1.25 var(--serif); transform: rotate(5deg); max-width: 190px; }
+  * { animation: none !important; transition: none !important; }
+  .og { position: absolute; inset: 0; overflow: hidden; }
+
+  /* the game's room: rust plank wall + dark table */
+  .og .wall { height: 470px; }
+  .og .table { top: 470px; }
+  .og .frame { z-index: 30; }
+
+  .lampbox { position: absolute; left: 652px; top: -8px; width: 118px; z-index: 1; }
+  .lampbox svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  .paati-box { position: absolute; left: 768px; top: 64px; width: 300px; height: 340px; z-index: 2; }
+  .paati-box svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 12px 18px rgba(40, 10, 0, .4)); }
+
+  .og-board { position: absolute; right: 54px; bottom: 44px; width: 560px; z-index: 3; }
+  .og-board svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .55)); }
+
+  .say {
+    position: absolute; left: 1016px; top: 70px; width: 150px; z-index: 4;
+    padding: 11px 14px; background: var(--paper-l) var(--grain-paper); border: 2.5px solid var(--ink); border-radius: 16px 16px 16px 4px;
+    box-shadow: 3px 4px 0 var(--ink); font: 600 italic 17px/1.25 var(--serif); color: var(--ink);
+  }
+
+  /* paper title card */
+  .card {
+    position: absolute; left: 58px; top: 62px; width: 590px; z-index: 5;
+    padding: 30px 36px 32px;
+    background: radial-gradient(ellipse at 30% 0, #fffaf0, transparent 70%), var(--grain-paper), linear-gradient(180deg, #fbf4e4, #f0e1c2);
+    border: 3px solid var(--ink); border-radius: 22px; box-shadow: 7px 8px 0 var(--ink), 0 30px 40px rgba(0, 0, 0, .35);
+  }
+  .card::before { content: ''; position: absolute; inset: 9px; border-radius: 15px; border: 1.5px solid rgba(142, 52, 32, .45); box-shadow: inset 0 0 0 3px rgba(251, 244, 228, .9), inset 0 0 0 4.5px rgba(200, 144, 46, .5); pointer-events: none; }
+  .kicker { position: relative; font: 600 16px/1 var(--sans); letter-spacing: 3.6px; text-transform: uppercase; color: var(--rust-d); }
+  .title { position: relative; margin: 14px 0 0; font-family: var(--serif); font-weight: 680; font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; line-height: .98; color: var(--ink); letter-spacing: -1px; }
+  .ta { position: relative; margin-top: 12px; font: 700 28px/1.25 var(--tamil); color: var(--rust); }
+  .sub { position: relative; margin-top: 14px; font: 500 22px/1.38 var(--sans); color: var(--ink-2); }
+
+  .url {
+    position: absolute; left: 58px; bottom: 52px; z-index: 6;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 22px 12px 14px; border: 3px solid var(--ink); border-radius: 999px;
+    background: var(--rust); color: var(--paper); font: 600 23px/1 var(--sans); letter-spacing: .3px;
+    box-shadow: 4px 5px 0 var(--ink);
+  }
+  .url i { width: 34px; height: 34px; border-radius: 50%; background: var(--mustard); border: 2.5px solid var(--ink); display: grid; place-items: center; font-style: normal; font-size: 14px; color: var(--ink); }
+  .free { position: absolute; left: 330px; bottom: 66px; z-index: 6; font: 600 italic 19px/1.2 var(--serif); color: var(--mustard-l); }
 </style>
 </head>
 <body>
 <div id="defs"></div>
 <div class="og">
-  <div class="paper-grain"></div>
-  <img class="banana" src="../assets/banana.webp" alt="" />
-  <img class="lotus" src="../assets/lotus.webp" alt="" />
-  <div class="copy">
+  <div class="wall"><div class="wall-grain"></div></div>
+  <div class="table"><div class="table-grain"></div></div>
+  <div class="lampbox" id="lamp"></div>
+  <div class="paati-box" id="paati"></div>
+  <div class="say" id="say"></div>
+  <div class="og-board" id="board"></div>
+  <div class="card">
     <div class="kicker" id="k"></div>
     <h1 class="title" id="t"></h1>
     <div class="ta" id="ta"></div>
     <div class="sub" id="s"></div>
   </div>
-  <div class="art">
-    <div class="face" id="face"></div>
-    <div class="badge">“Vaa kanna, oru game aadalaam!”</div>
-    <div class="og-board" id="board"></div>
-  </div>
-  <div class="url">▶ Play free · pallanguzhi.vercel.app</div>
+  <div class="url"><i>▶</i>pallanguzhi.com</div>
+  <div class="free">Free · no sign-up · in your browser</div>
 </div>
 <script src="../js/art.js"></script>
 <script>
   const q = new URLSearchParams(location.search);
   const A = PZ.art;
-  document.getElementById('defs').innerHTML = A.DEFS;
+  const $ = (id) => document.getElementById(id);
+  $('defs').innerHTML = A.DEFS;
   document.querySelector('.og').insertAdjacentHTML('beforeend', A.frame(1200, 630, 22, 5.5, 44));
-  document.getElementById('face').innerHTML = A.paati().replace('viewBox="0 0 300 340"', 'viewBox="76 30 148 148"');
-  document.querySelector('#face .paati').dataset.mood = 'happy';
-  document.getElementById('board').innerHTML = A.boardIcon();
+  $('lamp').innerHTML = A.lamp(34);
+  $('paati').innerHTML = A.paati();
+  $('paati').firstElementChild.dataset.mood = q.get('mood') || 'happy';
+  $('board').innerHTML = A.boardIcon();
+  $('say').textContent = q.get('say') || '“Vaa kanna, oru game aadalaam!”';
+
   const title = q.get('title') || 'Pallanguzhi';
-  const t = document.getElementById('t');
+  const t = $('t');
   t.textContent = title;
-  t.style.fontSize = (title.length <= 12 ? 104 : title.length <= 28 ? 68 : title.length <= 44 ? 56 : 48) + 'px';
-  const k = document.getElementById('k');
+  t.style.fontSize = (title.length <= 12 ? 108 : title.length <= 26 ? 66 : title.length <= 40 ? 56 : 48) + 'px';
+  const k = $('k');
   k.textContent = q.get('kicker') || 'The Tamil seed game';
-  if (/[\u0B80-\u0BFF]/.test(k.textContent)) { k.style.letterSpacing = '0'; k.style.fontFamily = 'var(--tamil)'; k.style.fontSize = '20px'; }
-  document.getElementById('ta').textContent = q.get('ta') || 'பல்லாங்குழி';
-  document.getElementById('s').textContent = q.get('sub') || '';
+  if (/[஀-௿]/.test(k.textContent)) { k.style.letterSpacing = '0'; k.style.fontFamily = 'var(--tamil)'; k.style.fontSize = '20px'; }
+  if (/[஀-௿]/.test(title)) { t.style.fontFamily = 'var(--tamil)'; t.style.letterSpacing = '0'; t.style.lineHeight = '1.15'; }
+  $('ta').textContent = q.get('ta') || 'பல்லாங்குழி';
+  $('s').textContent = q.get('sub') || '';
 </script>
-<style>
-  /* moods need the game stylesheet's paati rules; keep the face still for a crisp render */
-  .paati .p-head, .paati .p-jimikki, .paati .fx { animation: none !important; }
-</style>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url><loc>https://pallanguzhi.vercel.app/</loc><lastmod>2026-10-27</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>https://pallanguzhi.vercel.app/assets/img/pallanguzhi-game-board.webp</image:loc></image:image></url>
-  <url><loc>https://pallanguzhi.vercel.app/learn</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/how-to-play-pallanguzhi</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/pallanguzhi-history</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/pallanguzhi-strategy</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/pallanguzhi-names-and-spellings</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/pallanguzhi-board-and-seeds</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pallanguzhi.vercel.app/ta/pallanguzhi</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/</loc><lastmod>2026-10-27</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>https://www.pallanguzhi.com/assets/img/pallanguzhi-game-board.webp</image:loc></image:image></url>
+  <url><loc>https://www.pallanguzhi.com/learn</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/how-to-play-pallanguzhi</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/pallanguzhi-history</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/pallanguzhi-strategy</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/pallanguzhi-names-and-spellings</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/pallanguzhi-board-and-seeds</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pallanguzhi.com/ta/pallanguzhi</loc><lastmod>2026-10-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
