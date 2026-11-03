@@ -29,9 +29,9 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; }
+html, body { margin: 0; height: 100%; overscroll-behavior: none; }
 body {
-  background: var(--mustard);
+  background: var(--grain-frame), var(--mustard);
   color: var(--ink);
   font-family: var(--sans);
   overflow: hidden;
@@ -39,15 +39,22 @@ body {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
   touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+img { -webkit-user-drag: none; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
 button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 [hidden] { display: none !important; }
 
 /* ---------- stage scaling ---------- */
 #viewport {
-  position: fixed; inset: 0;
+  position: fixed;
+  /* keep the stage clear of notches and the home indicator */
+  top: env(safe-area-inset-top, 0px); right: env(safe-area-inset-right, 0px);
+  bottom: env(safe-area-inset-bottom, 0px); left: env(safe-area-inset-left, 0px);
   /* same mustard + grain as the stamp frame so the letterbox and frame read as one surface */
   background: var(--grain-frame), var(--mustard);
 }
@@ -117,7 +124,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .badge-ta.right { right: 70px; }
 
 .t-tagline {
-  position: absolute; top: 246px; left: 0; right: 0; margin: 0; text-align: center;
+  position: absolute; top: 240px; left: 0; right: 0; margin: 0; text-align: center;
   font-family: var(--serif); font-style: italic; font-size: 21px; color: var(--ink-2);
   font-variation-settings: 'SOFT' 100, 'opsz' 24;
   animation: fadeUp .8s .2s var(--ease-out) both;
@@ -125,7 +132,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } }
 
 .t-cards {
-  position: absolute; top: 320px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: 312px; left: 50%; transform: translateX(-50%);
   display: flex; gap: 26px;
 }
 .t-card {
@@ -169,7 +176,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 }
 
 .t-options {
-  position: absolute; top: 550px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: 534px; left: 50%; transform: translateX(-50%);
   display: flex; gap: 34px; align-items: flex-start; white-space: nowrap;
   animation: fadeUp .8s .55s var(--ease-out) both;
 }
@@ -187,7 +194,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .seed-swatch { position: relative; display: block; }
 
 .t-links {
-  position: absolute; top: 640px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: 614px; left: 50%; transform: translateX(-50%);
   display: flex; align-items: center; gap: 10px; white-space: nowrap;
   font-family: var(--serif); font-style: italic; font-size: 17px;
   animation: fadeUp .8s .65s var(--ease-out) both;
@@ -196,6 +203,12 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .t-links a:hover, .t-links button:hover { color: var(--ink); }
 .t-links span { color: var(--rust-d); opacity: .5; }
 .t-links a[lang='ta'] { font-family: var(--tamil); font-style: normal; font-size: 15px; }
+.t-credit {
+  position: absolute; top: 648px; left: 0; right: 0; margin: 0; text-align: center;
+  font-size: 12.5px; letter-spacing: .4px; color: var(--ink-2); opacity: .62;
+  animation: fadeUp .8s .75s var(--ease-out) both;
+}
+.t-credit a { color: var(--rust-d); font-weight: 600; text-decoration: none; border-bottom: 1px dashed currentColor; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ==========================================================================
@@ -742,24 +755,6 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .petal { position: absolute; top: -30px; width: 16px; height: 11px; border-radius: 50% 50% 50% 0; background: #fffdf4; border: 1.2px solid rgba(30, 23, 20, .5); animation: fall linear forwards; }
 @keyframes fall { to { translate: var(--dx) 800px; rotate: var(--rot); } }
 
-/* ==========================================================================
-   ROTATE PROMPT (phones held upright)
-   ========================================================================== */
-#rotate {
-  position: fixed; inset: 0; z-index: 100; display: none;
-  flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 24px;
-  background: var(--rust) var(--grain-paper); color: var(--paper); text-align: center;
-  font-size: 18px; line-height: 1.5;
-}
-#rotate b { font-family: var(--serif); font-size: 30px; display: block; }
-#rotate span { opacity: .75; font-size: 15px; }
-.rotate-phone { width: 70px; height: 116px; border: 4px solid var(--paper); border-radius: 14px; position: relative; animation: rot 2.4s var(--ease-out) infinite; }
-.rotate-phone::after { content: ''; position: absolute; left: 50%; bottom: 7px; width: 14px; height: 4px; margin-left: -7px; border-radius: 2px; background: var(--paper); }
-@keyframes rot { 0%, 25% { rotate: 0deg; } 60%, 100% { rotate: -90deg; } }
-@media (orientation: portrait) and (max-width: 900px) {
-  #rotate { display: flex; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
@@ -789,3 +784,150 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 @keyframes pbIn { 0% { scale: .2; rotate: -14deg; opacity: 0; } 18% { scale: 1.12; rotate: 4deg; opacity: 1; } 30% { scale: 1; rotate: -2deg; } 75% { opacity: 1; translate: -50% -80%; } 100% { opacity: 0; translate: -50% -120%; } }
 
 .rules-sheet .sheet-close { right: 30px; top: 24px; z-index: 3; }
+
+/* ==========================================================================
+   TOUCH SCREENS
+   ========================================================================== */
+.side { display: contents; }
+@media (hover: none) {
+  /* no sticky hover lifts after a tap */
+  .t-card:not(:disabled):hover { transform: none; box-shadow: 4px 5px 0 var(--ink); }
+  .t-card:not(:disabled):active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .tool:hover, .btn:hover { transform: none; }
+  .tool:hover { box-shadow: 2px 3px 0 var(--ink); }
+  .btn:hover { box-shadow: 3px 4px 0 var(--ink); }
+  .tool:active, .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .chips button:hover { background: none; }
+  .chips button.on:hover { background: var(--ink); }
+  .pit.playable:hover { transform: none; --glow: 0 0 0 0 transparent; }
+  .pit.playable:active { --glow: 0 0 0 11px rgba(231, 163, 58, .55), 0 0 30px 10px rgba(244, 196, 106, .4); }
+}
+@media (pointer: coarse) {
+  /* cheaper paint on phones: no blur behind sheets, no live filters on animated art */
+  .overlay { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(30, 23, 20, .66); }
+  .t-banana, .t-lotus { filter: none; will-change: transform; }
+  .paati-slot svg { filter: none; }
+}
+
+/* ==========================================================================
+   PORTRAIT (phones held upright) — stage is 720 wide × phone-height tall
+   ========================================================================== */
+/* ---- title ---- */
+.portrait #screen-title {
+  display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;
+  padding: 34px 20px 26px;
+}
+.portrait #screen-title > :not(.paper-grain, .t-banana, .t-lotus) { position: relative; top: auto; left: auto; right: auto; transform: none; }
+.portrait .t-badge { width: 640px; height: 190px; flex: none; animation-name: badgeInP; }
+@keyframes badgeInP { from { opacity: 0; translate: 0 -14px; scale: .96; } }
+.portrait .badge-ta.left { left: 66px; } .portrait .badge-ta.right { right: 66px; }
+.portrait .t-tagline { font-size: 25px; line-height: 1.3; padding: 0 30px; }
+.portrait .t-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 22px; width: 600px; margin-top: 30px; }
+.portrait .t-card { width: auto; height: 214px; }
+.portrait .t-icon { top: 18px; }
+.portrait .t-card.primary { grid-column: 1 / -1; height: 210px; }
+.portrait .t-card-title { font-size: 32px; }
+.portrait .t-card.primary .t-card-title { font-size: 40px; }
+.portrait .t-card-kicker { font-size: 14px; }
+.portrait .t-card-note { font-size: 16px; }
+.portrait .t-options { flex-direction: column; align-items: center; gap: 24px; }
+.portrait .opt { gap: 10px; }
+.portrait .opt-label { font-size: 14px; }
+.portrait .chips { padding: 5px; }
+.portrait .chips button { height: 58px; padding: 0 22px; font-size: 20px; }
+.portrait .seed-swatch { scale: 1.25; }
+.portrait .t-links { flex-wrap: wrap; justify-content: center; gap: 8px 14px; font-size: 24px; white-space: normal; padding: 0 20px; }
+.portrait .t-links a, .portrait .t-links button { padding: 6px 0 2px; }
+.portrait .t-links a[lang='ta'] { font-size: 21px; }
+.portrait .t-credit { font-size: 16px; }
+.portrait .t-banana { width: 250px; bottom: -14px; }
+.portrait .t-banana.left { left: -118px; } .portrait .t-banana.right { right: -118px; }
+.portrait .t-lotus { width: 136px; bottom: -20px; }
+.portrait .t-lotus.left { left: 8px; } .portrait .t-lotus.right { right: 0; width: 126px; }
+
+/* ---- game: board upright on the right, Ammachi + talk on the left ---- */
+.portrait .wall { height: 380px; }
+.portrait .table { top: 380px; }
+.portrait .lamp-slot, .portrait .g-logo { display: none; }
+.portrait .g-tools { top: 22px; width: 144px; flex-wrap: wrap; justify-content: flex-end; gap: 12px; z-index: 7; }
+.portrait .tool { width: 66px; height: 66px; font-size: 28px; }
+.portrait .tool svg { width: 28px; height: 28px; }
+.portrait .tool .speed-label { font-size: 19px; }
+.portrait .side {
+  position: absolute; left: 16px; top: 18px;
+  display: flex; flex-direction: column; align-items: flex-start; z-index: 6;
+}
+.portrait .side > * { position: relative; left: auto; top: auto; right: auto; }
+.portrait .paati-slot { order: 1; width: 214px; height: 243px; flex: none; margin-left: -6px; }
+.portrait .nameplate { order: 2; margin: -34px 0 0 8px; padding: 8px 26px 9px; z-index: 3; }
+.portrait .np-name { font-size: 22px; }
+.portrait .np-mood { font-size: 11px; }
+.portrait .bubble { order: 3; width: 100%; min-height: 0; margin-top: 30px; padding: 16px 20px; border-radius: 20px; }
+.portrait .bubble::before {
+  left: 74px; top: -13px; bottom: auto; width: 22px; height: 22px;
+  border: 0; border-left: 2.5px solid var(--ink); border-top: 2.5px solid var(--ink);
+  clip-path: none; transform: rotate(45deg);
+}
+.portrait .bubble-t { font-size: 23px; }
+.portrait .bubble-e { font-size: 16.5px; }
+.portrait .bubble-actions { flex-wrap: wrap; margin-top: 14px; }
+.portrait .bubble .btn.small { padding: 13px 22px; font-size: 20px; border-radius: 13px; }
+.portrait .narrate {
+  order: 4; width: 100%; height: auto; margin-top: auto;
+  flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 16px 14px;
+}
+.portrait .narrate-chip { font-size: 13px; padding: 6px 12px; }
+.portrait .narrate-text { flex: none; font-size: 20px; line-height: 1.3; }
+.portrait .narrate-hand { position: absolute; right: 14px; top: 16px; font-size: 13px; }
+.portrait .narrate-hand:empty { display: none; }
+.portrait .store-label { width: 150px; text-align: right; font-size: 12px; z-index: 7; }
+.portrait .store-label .sl-n { font-size: 44px; }
+.portrait .row-label { display: none; }
+.portrait .store-n { font-size: 22px; padding: 2px 12px; }
+
+/* the board is rotated 90° in JS; keep its light coming from the top of the screen */
+.portrait .board {
+  transform-origin: 0 0;
+  box-shadow:
+    inset 2px 0 0 rgba(255, 200, 150, .28),
+    inset -6px 0 12px rgba(0, 0, 0, .35),
+    7px 0 0 #2a0e05, 9px 0 0 var(--ink),
+    26px 0 40px rgba(0, 0, 0, .6);
+}
+.portrait .pit {
+  box-shadow:
+    inset 11px 0 16px rgba(0, 0, 0, .74),
+    inset -3px 0 6px rgba(255, 180, 120, .12),
+    0 0 0 2.5px rgba(0, 0, 0, .3),
+    0 0 0 4.5px rgba(255, 205, 160, .13),
+    0 0 0 7.5px rgba(0, 0, 0, .16),
+    0 0 0 9px rgba(255, 205, 160, .07),
+    var(--glow);
+}
+.portrait .store {
+  box-shadow: inset 12px 0 18px rgba(0, 0, 0, .72), inset -3px 0 6px rgba(255, 180, 120, .14),
+    0 0 0 3px rgba(0, 0, 0, .28), 0 0 0 5px rgba(255, 205, 160, .1), 0 0 0 8px rgba(0, 0, 0, .14);
+}
+.portrait .pit .count, .portrait .store-n { rotate: -90deg; }
+.portrait .pit .count { font-size: 15px; min-width: 28px; height: 28px; }
+.portrait .pits .seed.drop { animation-name: seedDropP; }
+@keyframes seedDropP { 0% { translate: -26px 0; scale: 1.25; opacity: .2; } 60% { opacity: 1; } 100% { translate: 0 0; scale: 1; } }
+.portrait .fly-layer .seed { scale: var(--bk, 1); }
+.portrait .pointer { rotate: 90deg; }
+.portrait .pointer.on { animation-name: pointBobX; }
+@keyframes pointBobX { 0%, 100% { translate: 0 0; } 50% { translate: 10px 0; } }
+
+/* ---- sheets ---- */
+.portrait .rules-sheet { width: 660px; height: calc(100% - 70px); max-height: 1240px; padding: 36px 30px 26px; }
+.portrait .rule-page { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; gap: 26px; overflow-y: auto; translate: 0 16px; }
+.portrait .rule-page.on { translate: 0 0; }
+.portrait .rule-page h3 { font-size: 44px; }
+.portrait .rule-page p { font-size: 21px; }
+.portrait .rule-tip { font-size: 18px; }
+.portrait .rule-art { height: 300px; }
+.portrait .rules-dots button { width: 30px; height: 30px; }
+.portrait .rules-nav .btn { padding: 14px 24px; font-size: 20px; }
+.portrait .rules-sheet .sheet-close { width: 56px; height: 56px; font-size: 36px; right: 22px; top: 18px; }
+.portrait .end-sheet { width: 620px; }
+.portrait .end-line { font-size: 24px; }
+.portrait .end-actions .btn { padding: 16px 28px; font-size: 21px; }

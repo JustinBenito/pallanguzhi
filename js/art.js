@@ -2,7 +2,7 @@
 (function () {
   const PZ = (window.PZ = window.PZ || {});
   const INK = '#1E1714';
-  const LINE = '#3B2418'; // softer sepia line for Paati
+  const LINE = '#3B2418'; // softer sepia line for Ammachi
 
   /* ---------- shared defs ---------- */
   const DEFS = `
@@ -16,7 +16,7 @@
         <stop offset="0" stop-color="#FFF4C8"/><stop offset=".45" stop-color="#E2AE46"/><stop offset="1" stop-color="#7A4A0C"/>
       </radialGradient>
 
-      <!-- Paati paints -->
+      <!-- Ammachi paints -->
       <radialGradient id="pa-skin" cx=".42" cy=".36" r=".72">
         <stop offset="0" stop-color="#EBB48C"/><stop offset=".65" stop-color="#DC9C72"/><stop offset="1" stop-color="#BF7D54"/>
       </radialGradient>
@@ -83,7 +83,7 @@
     </defs>
   </svg>`;
 
-  /* ---------- Sheila Paati ---------- */
+  /* ---------- Sheila Ammachi ---------- */
   // jasmine buds strung along the bun, lying tangent to the curve like a real malli saram
   function malli(cx, cy, r, a0, a1, n) {
     let s = '';
@@ -136,7 +136,7 @@
       <path d="M-7 2.4 A11.5 3.4 0 0 0 3 3.3" stroke="${hi}" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>`;
 
     return `
-<svg class="paati" viewBox="0 0 300 340" aria-label="Sheila Paati">
+<svg class="paati" viewBox="0 0 300 340" aria-label="Sheila Ammachi">
  <g class="p-root" filter="url(#pa-paint)">
   <g class="p-breathe">
    <!-- bun with a double malli saram and a red rose -->

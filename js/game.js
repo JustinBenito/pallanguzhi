@@ -1,4 +1,4 @@
-/* Pallanguzhi — UI, animation, Paati's turns, tutorial and rules. */
+/* Pallanguzhi — UI, animation, Ammachi's turns, tutorial and rules. */
 (function () {
   const PZ = window.PZ;
   const A = PZ.art;
@@ -21,7 +21,6 @@
   /* ---------------- mount art ---------------- */
   const stage = $('#stage');
   $('#defs').innerHTML = A.DEFS;
-  stage.insertAdjacentHTML('beforeend', A.frame());
   $('.paati-slot').innerHTML = A.paati();
   const paatiEl = $('.paati-slot .paati');
   const face = () => A.paati().replace('viewBox="0 0 300 340"', 'viewBox="76 30 148 148"');
@@ -39,19 +38,73 @@
   $('.t-icon.friends').innerHTML = `<svg viewBox="0 0 120 66"><g stroke="#1E1714" stroke-width="2.5" fill="#E7A33A"><circle cx="42" cy="22" r="13"/><path d="M18 62c2-16 12-24 24-24s22 8 24 24z"/></g><g stroke="#1E1714" stroke-width="2.5" fill="#B4462B"><circle cx="80" cy="22" r="13"/><path d="M56 62c2-16 12-24 24-24s22 8 24 24z"/></g></svg>`;
 
 
-  /* ---------------- stage scaling ---------------- */
-  function fit() {
-    const s = Math.min(innerWidth / 1280, innerHeight / 720);
-    stage.style.setProperty('--s', s);
-  }
-  addEventListener('resize', fit);
-  fit();
-
   /* ---------------- board geometry ---------------- */
-  const BOARD = { x: 87, y: 333 }; // board padding-box origin in screen coords
+  // BOARD = board padding-box origin in screen coords. In portrait the board stands
+  // upright (rotated 90° clockwise, scaled by k), so board-local points go through toScreen.
+  let PORT = false;
+  let BOARD = { x: 87, y: 333, k: 1 };
+  const toScreen = (x, y) => (PORT ? { x: BOARD.x - BOARD.k * y, y: BOARD.y + BOARD.k * x } : { x: BOARD.x + x, y: BOARD.y + y });
+  const vec = (dx, dy) => (PORT ? { x: -BOARD.k * dy, y: BOARD.k * dx } : { x: dx, y: dy });
   const pitLocal = (i) => ({ x: 197 + (i < 7 ? i : 13 - i) * 114, y: i < 7 ? 180 : 72 });
-  const pitAt = (i) => { const p = pitLocal(i); return { x: BOARD.x + p.x, y: BOARD.y + p.y }; };
-  const storeAt = (w) => ({ x: BOARD.x + (w === 1 ? 71 : 1009), y: BOARD.y + 126 });
+  const pitAt = (i) => { const p = pitLocal(i); return toScreen(p.x, p.y); };
+  const storeAt = (w) => toScreen(w === 1 ? 71 : 1009, 126);
+  const orient = (land, port) => (PORT ? port : land);
+
+  /* ---------------- stage scaling ---------------- */
+  const viewportEl = $('#viewport');
+  const boardEl = $('#board');
+  let frameKey = '';
+  function fit() {
+    const vw = viewportEl.clientWidth || innerWidth, vh = viewportEl.clientHeight || innerHeight;
+    PORT = vh > vw * 1.1;
+    // portrait stage is 720 wide and as tall as the phone, so nothing is letterboxed
+    const W = PORT ? 720 : 1280;
+    const H = PORT ? Math.round(Math.min(1600, Math.max(1100, (W * vh) / vw))) : 720;
+    document.body.classList.toggle('portrait', PORT);
+    stage.style.width = W + 'px';
+    stage.style.height = H + 'px';
+    stage.style.setProperty('--s', Math.min(vw / W, vh / H));
+    if (frameKey !== W + 'x' + H) {
+      frameKey = W + 'x' + H;
+      $('.frame', stage)?.remove();
+      stage.insertAdjacentHTML('beforeend', A.frame(W, H));
+    }
+    layoutBoard(H - 32);
+  }
+
+  function layoutBoard(sh) {
+    const labels = $$('.store-label, .row-label');
+    if (!PORT) {
+      BOARD = { x: 87, y: 333, k: 1 };
+      [boardEl, $('.side'), $('.g-tools'), ...labels].forEach((el) => (el.style.cssText = ''));
+    } else {
+      // upright board hugging the right edge, as tall as the screen allows
+      const k = Math.min(1.08, (sh - 40) / 1080);
+      const L = 688 - 18, T = Math.max(20, (sh - 1080 * k) / 2);
+      boardEl.style.left = L + 'px';
+      boardEl.style.top = T + 'px';
+      boardEl.style.transform = `rotate(90deg) scale(${k})`;
+      BOARD = { x: L - 3 * k, y: T + 3 * k, k };
+      // left column: Ammachi + tools on top, talk in the middle, your score at the bottom
+      const edge = L - 252 * k - 16, right = 688 - edge;
+      const s0 = storeAt(0);
+      const side = $('.side');
+      side.style.width = edge - 16 + 'px';
+      side.style.bottom = sh - (s0.y - 44) + 'px';
+      $('.g-tools').style.right = right + 'px';
+      const put = (el, top) => { el.style.cssText = `left:auto;right:${right}px;top:${top}px`; };
+      put($('.store-label.s1'), 184);
+      put($('.store-label.s0'), s0.y - 32);
+    }
+    stage.style.setProperty('--bk', BOARD.k);
+    if (pitEls.length) pointer(pointerAt);
+  }
+
+  let fitQueued = false;
+  const queueFit = () => { if (!fitQueued) { fitQueued = true; requestAnimationFrame(() => { fitQueued = false; fit(); }); } };
+  addEventListener('resize', queueFit);
+  addEventListener('orientationchange', () => setTimeout(fit, 250));
+  if (window.visualViewport) visualViewport.addEventListener('resize', queueFit);
 
   const rnd = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
   function pitSlot(i, k) {
@@ -85,7 +138,7 @@
     el.style.top = p.y + 'px';
     el.dataset.i = i;
     el.setAttribute('role', 'button');
-    el.setAttribute('aria-label', (i < 7 ? 'Your kuzhi ' + (i + 1) : 'Paati’s kuzhi ' + (i - 6)));
+    el.setAttribute('aria-label', (i < 7 ? 'Your kuzhi ' + (i + 1) : 'Ammachi’s kuzhi ' + (i - 6)));
     el.innerHTML = '<div class="seeds"></div><span class="count">5</span>';
     pitsWrap.appendChild(el);
     pitEls.push({ el, seeds: el.firstChild, count: el.lastChild });
@@ -167,7 +220,10 @@
 
   function seedsOf(i) {
     const c = pitAt(i);
-    return Array.from(pitEls[i].seeds.children).map((s) => ({ x: c.x + parseFloat(s.style.left), y: c.y + parseFloat(s.style.top) }));
+    return Array.from(pitEls[i].seeds.children).map((s) => {
+      const d = vec(parseFloat(s.style.left), parseFloat(s.style.top));
+      return { x: c.x + d.x, y: c.y + d.y };
+    });
   }
 
   function setHand(n, at, ms) {
@@ -186,9 +242,9 @@
     }
     handEl.classList.toggle('on', n > 0);
   }
-  const handOver = (i) => { const c = pitAt(i); return { x: c.x, y: c.y - (i < 7 ? 52 : 48) }; };
+  const handOver = (i) => { const c = pitAt(i), d = vec(0, i < 7 ? -52 : -48); return { x: c.x + d.x, y: c.y + d.y }; };
 
-  /* ---------------- Paati: mood + speech ---------------- */
+  /* ---------------- Ammachi: mood + speech ---------------- */
   const bubble = $('.bubble');
   const bT = $('.bubble-t'), bE = $('.bubble-e'), bAct = $('.bubble-actions');
   let moodTimer = 0, sayId = 0;
@@ -243,7 +299,7 @@
   const nChip = $('.narrate-chip'), nText = $('.narrate-text'), nHand = $('.narrate-hand');
   function narrate(html, who) {
     if (who !== undefined) {
-      nChip.textContent = who === 0 ? 'Your move' : who === 1 ? 'Paati’s move' : who;
+      nChip.textContent = who === 0 ? 'Your move' : who === 1 ? 'Ammachi’s move' : who;
       nChip.className = 'narrate-chip' + (who === 1 ? ' paati' : typeof who === 'string' ? ' learn' : '');
     }
     nText.innerHTML = html;
@@ -290,8 +346,8 @@
           flash(ev.pit);
           if (ev.first) {
             narrate(ev.by === 0
-              ? `You scoop <b>${seeds(ev.n)}</b> and drop them one by one, anticlockwise →`
-              : `Paati scoops <b>${seeds(ev.n)}</b> from her row…`, ev.by);
+              ? `You scoop <b>${seeds(ev.n)}</b> and drop them one by one, anticlockwise ${orient('→', '↓')}`
+              : `Ammachi scoops <b>${seeds(ev.n)}</b> from her row…`, ev.by);
             const h = handOver(ev.pit);
             handEl.style.setProperty('--hand-ms', '0ms');
             handEl.style.translate = `${h.x}px ${h.y}px`;
@@ -325,7 +381,7 @@
         case 'pasu': {
           sum.pasu[ev.owner] += 4;
           mark(ev.pit, 'mark-pasu');
-          narrate(`<b>Pasu!</b> That kuzhi hit 4 — it’s on ${ev.owner === 0 ? 'your row, so the 4 seeds are <b>yours</b>' : 'Paati’s row, so <b>she</b> takes them'}.`);
+          narrate(`<b>Pasu!</b> That kuzhi hit 4 — it’s on ${ev.owner === 0 ? 'your row, so the 4 seeds are <b>yours</b>' : 'Ammachi’s row, so <b>she</b> takes them'}.`);
           sfx.jackpot();
           pasuBurst(ev.pit, ev.owner);
           await sleep(480 / SP());
@@ -350,7 +406,7 @@
           mark(ev.pit, 'mark-cap');
           narrate(ev.by === 0
             ? `…so you <b>capture ${ev.n === 1 ? 'the 1 seed' : 'all ' + ev.n + ' seeds'}</b> in the kuzhi after it!`
-            : `…so Paati <b>grabs ${ev.n === 1 ? 'the 1 seed' : 'all ' + ev.n + ' seeds'}</b> in the kuzhi after it.`);
+            : `…so Ammachi <b>grabs ${ev.n === 1 ? 'the 1 seed' : 'all ' + ev.n + ' seeds'}</b> in the kuzhi after it.`);
           await sleep(260 / SP());
           const froms = seedsOf(ev.pit);
           v.pits[ev.pit] = 0;
@@ -408,7 +464,7 @@
     else if (ev.t === 'pasu') { v.pits[ev.pit] = 0; v.store[ev.owner] += 4; sum.pasu[ev.owner] += 4; }
     else if (ev.t === 'capture') {
       v.pits[ev.pit] = 0; v.store[ev.by] += ev.n; sum.cap[ev.by] += ev.n;
-      narrate(ev.by === 0 ? `Skipped ahead — you <b>captured ${seeds(ev.n)}</b> at the end.` : `Skipped ahead — Paati <b>grabbed ${seeds(ev.n)}</b> at the end.`);
+      narrate(ev.by === 0 ? `Skipped ahead — you <b>captured ${seeds(ev.n)}</b> at the end.` : `Skipped ahead — Ammachi <b>grabbed ${seeds(ev.n)}</b> at the end.`);
     } else if (ev.t === 'nothing') { sum.nothing = true; narrate('Skipped ahead — the move ended with <b>nothing to take</b>.'); }
     else if (ev.t === 'sweep') { v.pits[ev.pit] = 0; v.store[ev.owner] += ev.n; sum.over = true; }
     else if (ev.t === 'over') sum.over = true;
@@ -423,7 +479,7 @@
     el.style.top = c.y + 'px';
     let rays = '';
     for (let k = 0; k < 14; k++) rays += `<i style="--a:${k * 25.7}deg;--d:${(k % 3) * 40}ms"></i>`;
-    el.innerHTML = `<div class="pb-rays">${rays}</div><div class="pb-badge"><b>Pasu!</b><span>+4 ${who === 0 ? 'for you' : 'for Paati'}</span></div>`;
+    el.innerHTML = `<div class="pb-rays">${rays}</div><div class="pb-badge"><b>Pasu!</b><span>+4 ${who === 0 ? 'for you' : 'for Ammachi'}</span></div>`;
     flyLayer.appendChild(el);
     setTimeout(() => el.remove(), 1700);
   }
@@ -431,7 +487,8 @@
   function storeTarget(w, k) {
     const c = storeAt(w);
     const s = storeSlot(w, Math.min(k, 69));
-    return { x: c.x + s.x, y: c.y + s.y };
+    const d = vec(s.x, s.y);
+    return { x: c.x + d.x, y: c.y + d.y };
   }
 
   function flash(i) {
@@ -556,7 +613,7 @@
       const legal = PZ.legalMoves(G.state);
       setPlayable(legal);
       rowGlow(0);
-      narrate('Your turn! Tap a glowing kuzhi on <b>your row</b> (bottom) to scoop its seeds.', 0);
+      narrate(`Your turn! Tap a glowing kuzhi on <b>your row</b> (${orient('bottom', 'left side')}) to scoop its seeds.`, 0);
       clearTimeout(G.idleT);
       G.idleT = setTimeout(() => G.awaitUser && say(PZ.paatiLine('idle'), 'smug'), 16000);
     } else paatiTurn();
@@ -564,7 +621,7 @@
 
   async function paatiTurn() {
     rowGlow(1);
-    narrate('Paati is thinking about her move…', 1);
+    narrate('Ammachi is thinking about her move…', 1);
     if (Math.random() < 0.6) say(PZ.paatiLine('thinking'), 'think', { moodMs: 0 });
     else setMood('think');
     thinking(true);
@@ -587,7 +644,7 @@
     $$('.screen').forEach((s) => s.classList.toggle('is-active', s.id === id));
   }
 
-  const MOOD_LABEL = { easy: 'Chellam mood · easy', medium: 'Konjam serious · medium', hard: 'Paati mode · hard' };
+  const MOOD_LABEL = { easy: 'Chellam mood · easy', medium: 'Konjam serious · medium', hard: 'Ammachi mode · hard' };
 
   async function deal(state) {
     G.view.pits = Array(14).fill(0);
@@ -631,13 +688,13 @@
     const line = PZ.paatiLine(res === 'win' ? 'youWin' : res === 'lose' ? 'paatiWin' : 'tie');
     const mood = res === 'win' ? 'shock' : res === 'lose' ? 'happy' : 'smug';
     say(line, mood, { moodMs: 0 });
-    narrate(`Round over — you <b>${y}</b>, Paati <b>${p}</b>.`, 'Round over');
+    narrate(`Round over — you <b>${y}</b>, Ammachi <b>${p}</b>.`, 'Round over');
     sfx.fanfare(res !== 'lose');
 
     const end = $('#end');
     $('.end-face .paati').dataset.mood = res === 'win' ? 'sad' : res === 'lose' ? 'happy' : 'smug';
-    $('.end-kicker').textContent = res === 'win' ? 'Paati is shocked' : res === 'lose' ? 'Paati wins, obviously' : 'Equal-equal';
-    $('.end-title').textContent = res === 'win' ? 'You beat Paati!' : res === 'lose' ? 'Paati jeyichitaanga!' : 'Samam! A tie.';
+    $('.end-kicker').textContent = res === 'win' ? 'Ammachi is shocked' : res === 'lose' ? 'Ammachi wins, obviously' : 'Equal-equal';
+    $('.end-title').textContent = res === 'win' ? 'You beat Ammachi!' : res === 'lose' ? 'Ammachi jeyichitaanga!' : 'Samam! A tie.';
     $('[data-end="0"]').textContent = y;
     $('[data-end="1"]').textContent = p;
     $('.end-line').textContent = line.t;
@@ -672,18 +729,21 @@
     if (location.hash) history.replaceState(null, '', location.pathname);
   }
 
-  /* ---------------- tutorial: Paati's pathshala ---------------- */
+  /* ---------------- tutorial: Ammachi's pathshala ---------------- */
+  const val = (v) => (typeof v === 'function' ? v() : v);
   const P = (you, paati, store = [0, 0]) => ({ pits: [...you, ...paati], store, turn: 0, over: false });
   const TUT = [
     {
       state: P([5, 5, 5, 5, 5, 5, 5], [5, 5, 5, 5, 5, 5, 5]),
       say: { t: 'Vaa kanna! Rendu nimishathula Pallanguzhi solli tharen.', e: 'Come! I’ll teach you Pallanguzhi in two minutes.' },
-      narr: 'Welcome to <b>Paati’s pathshala</b>. Press <b>Next</b> in Paati’s speech bubble to continue.',
+      narr: 'Welcome to <b>Ammachi’s pathshala</b>. Press <b>Next</b> in Ammachi’s speech bubble to continue.',
     },
     {
       state: P([5, 5, 5, 5, 5, 5, 5], [5, 5, 5, 5, 5, 5, 5]),
       glow: 'both',
-      say: { t: 'Keela irukkura 7 kuzhi unnodadhu. Mela 7 ennodadhu.', e: 'The 7 pits at the bottom are yours. The 7 at the top are mine.' },
+      say: () => orient(
+        { t: 'Keela irukkura 7 kuzhi unnodadhu. Mela 7 ennodadhu.', e: 'The 7 pits at the bottom are yours. The 7 at the top are mine.' },
+        { t: 'Un pakkam irukkura 7 kuzhi unnodadhu. Andha pakkam 7 ennodadhu.', e: 'The 7 pits on the left are yours. The 7 on the right are mine.' }),
       narr: 'This is the board: <b>14 kuzhis</b> (pits). Each one starts with <b>5 seeds</b>, so 70 in all. The ends of the board hold your captured seeds.',
     },
     {
@@ -691,7 +751,7 @@
       state: P([0, 3, 0, 0, 0, 0, 0], [2, 1, 2, 3, 1, 2, 1]),
       target: 1,
       say: { t: 'Indha kuzhi-a thodu. Ellaa seeds-um eduthu, oru kuzhi-ku onnu podu.', e: 'Tap this pit. Take all its seeds and drop one in each pit after it.' },
-      narr: '<b>Sowing:</b> tap the glowing kuzhi. You’ll scoop its 3 seeds and drop one into each kuzhi going <b>anticlockwise</b> (left → right on your row).',
+      narr: () => `<b>Sowing:</b> tap the glowing kuzhi. You’ll scoop its 3 seeds and drop one into each kuzhi going <b>anticlockwise</b> (${orient('left → right', 'top → bottom')} on your row).`,
       post: { t: 'Paathiyaa? Onnu, onnu, onnu. Adhu dhaan vidhaippu.', e: 'See? One, one, one. That is sowing.' },
       postNarr: 'One seed per kuzhi. The move ended because the next kuzhi was empty, and the one after it was too. More on that soon.',
     },
@@ -709,9 +769,9 @@
       state: P([0, 0, 0, 0, 2, 0, 0], [0, 6, 2, 1, 2, 3, 1]),
       target: 4,
       say: { t: 'Ippo dhaan important. Adutha kuzhi kaali-naa, adhukku apram irukkura kuzhi unnodadhu!', e: 'The important bit: if the next pit is empty, the pit after it is yours!' },
-      narr: '<b>Capture:</b> if the kuzhi after your last seed is <b>empty</b>, you take every seed in the kuzhi <b>just beyond it</b>. Try it, and watch Paati’s 6 seeds.',
+      narr: '<b>Capture:</b> if the kuzhi after your last seed is <b>empty</b>, you take every seed in the kuzhi <b>just beyond it</b>. Try it, and watch Ammachi’s 6 seeds.',
       post: { t: 'Aiyo! En 6 seeds-a eduthutta! Nalla student dhaan.', e: 'Oh no, you took my 6 seeds! Good student.' },
-      postNarr: 'Captured seeds go into <b>your big kuzhi</b> at the right end of the board. That’s how you score. Then your turn ends.',
+      postNarr: () => `Captured seeds go into <b>your big kuzhi</b> at the ${orient('right', 'bottom')} end of the board. That’s how you score. Then your turn ends.`,
       postMood: 'shock',
     },
     {
@@ -721,7 +781,7 @@
       say: { t: 'Oru kuzhi-la sariyaa 4 seeds aana — adhu Pasu! Andha row-oda owner-ku pogum.', e: 'If a pit reaches exactly 4 seeds, that’s a Pasu! It goes to the owner of that row.' },
       narr: '<b>Pasu (the cow):</b> while sowing, any kuzhi that reaches <b>exactly 4</b> is taken right away by whoever owns that row. Tap to make one!',
       post: { t: 'Moo! Un pakkam pasu, adhanaala unakku dhaan. En pakkam aana, enakku!', e: 'Moo! The cow was on your side, so it’s yours. On my side, it would be mine!' },
-      postNarr: 'Watch for 4s on <b>both</b> rows. Paati’s sowing can hand you a pasu too, and yours can hand her one.',
+      postNarr: 'Watch for 4s on <b>both</b> rows. Ammachi’s sowing can hand you a pasu too, and yours can hand her one.',
       postMood: 'happy',
     },
     {
@@ -732,7 +792,7 @@
     },
     {
       state: P([5, 5, 5, 5, 5, 5, 5], [5, 5, 5, 5, 5, 5, 5]),
-      say: { t: 'Avlo dhaan! Ippo unakku theriyum. Vaa, Paati kooda oru game aadalaam?', e: 'That’s it! Now you know. Shall we play a real game?' },
+      say: { t: 'Avlo dhaan! Ippo unakku theriyum. Vaa, Ammachi kooda oru game aadalaam?', e: 'That’s it! Now you know. Shall we play a real game?' },
       narr: 'Remember: <b>sow</b> → <b>keep going</b> if the next kuzhi has seeds → <b>capture</b> past an empty kuzhi. And watch for <b>pasu</b> 4s!',
       final: true,
     },
@@ -760,19 +820,19 @@
     renderAll();
     rowGlow(s.glow === 'both' ? 0 : -1);
     if (s.glow === 'both') $('.row-glow.top').classList.add('on');
-    narrate(s.narr, `Lesson ${k + 1}/${TUT.length}`);
+    narrate(val(s.narr), `Lesson ${k + 1}/${TUT.length}`);
     if (s.target != null) {
       pitEls[s.target].el.classList.add('target', 'playable');
       pitEls.forEach((p, i) => { if (i !== s.target && i < 7 && G.view.pits[i] === 0) p.el.classList.add('dim'); });
-      await say(s.say, 'normal');
+      await say(val(s.say), 'normal');
       if (G.tut !== k) return;
       G.allowPit = s.target;
       pointer(s.target);
     } else {
       const actions = s.final
-        ? [{ label: 'Play Paati →', fn: startGame }, { label: 'Again', ghost: true, fn: () => tutStep(0) }]
+        ? [{ label: 'Play Ammachi →', fn: startGame }, { label: 'Again', ghost: true, fn: () => tutStep(0) }]
         : [{ label: 'Next →', fn: () => tutStep(k + 1) }].concat(k > 0 ? [{ label: 'Back', ghost: true, fn: () => tutStep(k - 1) }] : []);
-      await say(s.say, s.final ? 'happy' : 'normal', { actions });
+      await say(val(s.say), s.final ? 'happy' : 'normal', { actions });
     }
   }
 
@@ -789,7 +849,7 @@
     settings.speed = speed;
     G.state = r.state;
     if (G.mode !== 'tutorial' || G.tut !== k) return;
-    narrate(s.postNarr, `Lesson ${k + 1}/${TUT.length}`);
+    narrate(val(s.postNarr), `Lesson ${k + 1}/${TUT.length}`);
     say(s.post, s.postMood || 'happy', {
       moodMs: 0,
       actions: [{ label: 'Next →', fn: () => tutStep(k + 1) }, { label: 'Try again', ghost: true, fn: () => tutStep(k) }],
@@ -797,11 +857,14 @@
   }
 
   const pointerEl = $('.pointer');
+  let pointerAt = null;
   function pointer(i) {
+    pointerAt = i;
     if (i == null) { pointerEl.classList.remove('on'); return; }
     const c = pitAt(i);
-    pointerEl.style.left = c.x - 14 + 'px';
-    pointerEl.style.top = c.y + 18 + 'px';
+    // portrait: the hand sits left of the upright board, finger pointing right
+    pointerEl.style.left = (PORT ? c.x - 45 * BOARD.k - 70 : c.x - 14) + 'px';
+    pointerEl.style.top = (PORT ? c.y - 32 : c.y + 18) + 'px';
     pointerEl.classList.add('on');
   }
 
@@ -833,14 +896,14 @@
     {
       h: 'The board', ta: 'பல்லாங்குழி பலகை',
       p: ['Pallanguzhi is played on a wooden board with <b>14 kuzhis</b> (pits) in two rows of seven.',
-        'The <b>bottom row is yours</b> and the <b>top row is Paati’s</b>. Every kuzhi starts with <b>5 seeds</b>.'],
+        'The <b>bottom row is yours</b> and the <b>top row is Ammachi’s</b>. Every kuzhi starts with <b>5 seeds</b>.'],
       tip: '“Pallanguzhi” means “many pits”. Tamil homes have played it for centuries, often with manjadi seeds, tamarind seeds or cowrie shells.',
-      art: mini(Array(14).fill(5), {}, [], 'Bottom row: yours · Top row: Paati’s'),
+      art: mini(Array(14).fill(5), {}, [], 'Bottom row: yours · Top row: Ammachi’s'),
     },
     {
       h: 'Sowing', ta: 'விதைத்தல்',
       p: ['On your turn, pick any <b>non-empty kuzhi on your row</b> and scoop out all its seeds.',
-        'Drop them <b>one by one</b> into the following kuzhis, <b>anticlockwise</b>: left to right along your row, then right to left along Paati’s.'],
+        'Drop them <b>one by one</b> into the following kuzhis, <b>anticlockwise</b>: left to right along your row, then right to left along Ammachi’s.'],
       tip: 'Tip: on desktop, hover over a kuzhi to see where your seeds will land.',
       art: mini([0, 0, '', 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2], { 2: 'hl', 3: 'hl', 4: 'hl', 5: 'hl' }, [[2, 3], [3, 4], [4, 5]], '3 seeds → one each into the next 3 kuzhis'),
     },
@@ -855,14 +918,14 @@
       h: 'Capture', ta: 'கைப்பற்றுதல்',
       p: ['If the kuzhi after your last seed is <b>empty</b>, skip over it and <b>take every seed</b> in the kuzhi just beyond.',
         'Those seeds go into your big kuzhi at the end of the board, and your turn ends. If both kuzhis are empty, you get nothing.'],
-      tip: 'Set traps: leave an empty kuzhi right before a fat one on Paati’s row.',
+      tip: 'Set traps: leave an empty kuzhi right before a fat one on Ammachi’s row.',
       art: mini([0, 0, 0, 0, 0, 1, 1, 0, 7, 2, 2, 2, 2, 2], { 6: 'hl', 7: 'empty', 8: 'cap' }, [[6, 8, 40]], 'Last seed → empty → you take the 7'),
     },
     {
       h: 'Pasu · the cow', ta: 'பசு',
       p: ['While sowing, if any kuzhi reaches <b>exactly 4 seeds</b>, it’s a <b>pasu</b>!',
         'Those 4 seeds go straight to <b>whoever owns that row</b>, even in the middle of the other player’s move.'],
-      tip: 'Paati counts 3s on your row very carefully. You should too.',
+      tip: 'Ammachi counts 3s on your row very carefully. You should too.',
       art: mini([0, 0, 3, 1, 3, 0, 0, 2, 1, 2, 1, 2, 1, 2], { 4: 'pasu' }, [[2, 3], [3, 4]], '3 + 1 = 4 → pasu! The row owner takes it'),
     },
     {
@@ -870,7 +933,7 @@
       p: ['When it’s someone’s turn and <b>their row is empty</b>, the round ends.',
         'Seeds left on each row go to that row’s owner. Get <b>more than 35</b> of the 70 seeds to win.'],
       tip: 'In the traditional game, rounds continue and kuzhis a player can’t refill get “burnt”. Here we play one quick round.',
-      art: mini([2, 0, 1, 0, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0], { 7: 'empty', 8: 'empty', 9: 'empty', 10: 'empty', 11: 'empty', 12: 'empty', 13: 'empty' }, [], 'Paati’s row is empty on her turn → round over'),
+      art: mini([2, 0, 1, 0, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0], { 7: 'empty', 8: 'empty', 9: 'empty', 10: 'empty', 11: 'empty', 12: 'empty', 13: 'empty' }, [], 'Ammachi’s row is empty on her turn → round over'),
     },
   ];
   let rulePage = 0;
@@ -933,8 +996,9 @@
     $('.speed-label').textContent = settings.speed + '×';
   }
 
-  // idle Paati on title — she blinks and her coffee steams; seed the board for the background
+  // idle Ammachi on title — she blinks and her coffee steams; seed the board for the background
   applySettings();
+  fit();
   syncView(PZ.newState());
   renderAll();
 

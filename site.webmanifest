@@ -1,10 +1,10 @@
 {
-  "name": "Pallanguzhi · play with Sheila Paati",
+  "name": "Pallanguzhi · play with Sheila Ammachi",
   "short_name": "Pallanguzhi",
   "description": "Play Pallanguzhi, the Tamil seed game, free in your browser.",
   "start_url": "/",
   "display": "fullscreen",
-  "orientation": "landscape",
+  "orientation": "any",
   "background_color": "#E7A33A",
   "theme_color": "#E7A33A",
   "lang": "en",

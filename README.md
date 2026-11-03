@@ -1,9 +1,9 @@
-# Pallanguzhi · play with Sheila Paati
+# Pallanguzhi · play with Sheila Ammachi
 
-The old Tamil seed game on a carved wooden board, played against Sheila Paati, an 86-year-old who has been unbeaten since 1952 and talks trash in Tanglish.
+The old Tamil seed game on a carved wooden board, played against Sheila Ammachi, an 86-year-old who has been unbeaten since 1950 and talks trash in Tanglish.
 
-- Hands-on 2-minute tutorial (Paati's pathshala) and an illustrated rules sheet
-- Three difficulty levels: Chellam, Konjam serious, Paati mode
+- Hands-on 2-minute tutorial (Ammachi's pathshala) and an illustrated rules sheet
+- Three difficulty levels: Chellam, Konjam serious, Ammachi mode
 - Manjadi, puli kottai or sozhi seeds
 - Live narration of every sow, relay, capture and pasu
 - Multiplayer coming soon
@@ -24,10 +24,10 @@ python3 -m http.server 5173
 
 | Path | What |
 | --- | --- |
-| `js/engine.js` | rules + Paati's search (negamax, alpha-beta) |
+| `js/engine.js` | rules + Ammachi's search (negamax, alpha-beta) |
 | `js/game.js` | rendering, animation, tutorial, rules sheet |
-| `js/art.js` | hand-built SVG: Paati, lamps, frame, board icon |
-| `js/paati.js` | Paati's lines |
+| `js/art.js` | hand-built SVG: Ammachi, lamps, frame, board icon |
+| `js/paati.js` | Ammachi's lines |
 | `js/audio.js` | synthesized sounds (no audio files) |
 | `assets/` | painted banana, lotus and sozhi cut-outs |
 

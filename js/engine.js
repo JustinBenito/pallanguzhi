@@ -1,8 +1,8 @@
-/* Pallanguzhi rules engine + Sheila Paati's brain.
+/* Pallanguzhi rules engine + Sheila Ammachi's brain.
  *
  * Board indices run anticlockwise (the sowing direction):
  *   0..6   → your row, left → right (bottom of screen)
- *   7..13  → Paati's row, right → left (top of screen)
+ *   7..13  → Ammachi's row, right → left (top of screen)
  *
  * Rules (classic Tamil Nadu version, single round):
  *  1. Every kuzhi starts with 5 seeds.
@@ -105,7 +105,7 @@
     if (ev) ev.push({ t: 'over', store: st.store.slice(), stuck: st.turn });
   }
 
-  /* ---------- Sheila Paati's brain: negamax with alpha-beta + iterative deepening ---------- */
+  /* ---------- Sheila Ammachi's brain: negamax with alpha-beta + iterative deepening ---------- */
 
   function evaluate(s, me) {
     // Seeds in the kitty are real. Seeds on your own row are "probably yours" at the end.
@@ -120,7 +120,7 @@
     const me = s.turn;
 
     if (level === 'easy') {
-      // Chellam mode: Paati is "letting you win", mostly.
+      // Chellam mode: Ammachi is "letting you win", mostly.
       if (Math.random() < 0.55) return moves[(Math.random() * moves.length) | 0];
       return bestAtDepth(s, me, 1, Infinity).move;
     }
@@ -134,7 +134,7 @@
       if (r.aborted) break;
       best = r;
     }
-    // Medium Paati occasionally gets distracted by the TV serial.
+    // Medium Ammachi occasionally gets distracted by the TV serial.
     if (level === 'medium' && Math.random() < 0.18) return moves[(Math.random() * moves.length) | 0];
     return best.move;
   }

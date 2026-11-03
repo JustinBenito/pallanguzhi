@@ -1,12 +1,12 @@
-/* Sheila Paati's dialogue. t = what she says (Tanglish), e = a small English whisper for newcomers. */
+/* Sheila Ammachi's dialogue. t = what she says (Tanglish), e = a small English whisper for newcomers. */
 (function () {
   const PZ = (window.PZ = window.PZ || {});
 
   const LINES = {
     hello: [
-      { t: 'Vaa kanna, utkaaru! Paati kitta jeyikka mudiyumaa nu paappom.', e: 'Come, sit! Let’s see if you can beat Paati.' },
+      { t: 'Vaa kanna, utkaaru! Ammachi kitta jeyikka mudiyumaa nu paappom.', e: 'Come, sit! Let’s see if you can beat Ammachi.' },
       { t: 'Coffee kudichiyaa? Illana kai nadungum, seeds ellam keela vizhum.', e: 'Had your coffee? Otherwise your hands will shake.' },
-      { t: '1952-la irundhu naan thothadhe illa. Summa solren… vaa aadalaam.', e: 'Haven’t lost since 1952. Just saying… let’s play.' },
+      { t: '1950-la irundhu naan thothadhe illa. Summa solren… vaa aadalaam.', e: 'Haven’t lost since 1950. Just saying… let’s play.' },
       { t: 'Phone-a keela vei, kanna. Idhu dhaan original video game.', e: 'Put the phone down. This is the original video game.' },
     ],
     helloPaatiFirst: [
@@ -21,12 +21,12 @@
     thinking: [
       { t: 'Hmm… yosikkaren. Avasara padaadha.', e: 'Hmm… thinking. Patience.' },
       { t: 'Indha kuzhi… illa andha kuzhi… seri.', e: 'This pit… no, that pit… okay.' },
-      { t: 'Konjam porumai kanna, Paati-ku vayasaachu.', e: 'Little patience, Paati is old.' },
+      { t: 'Konjam porumai kanna, Ammachi-ku vayasaachu.', e: 'Little patience, Ammachi is old.' },
       { t: 'Kannaadi ellam saripaathukaren… ok.', e: 'Adjusting my specs… ok.' },
       { t: 'Ennoda mind-la 7 move munnaadi paathuten.', e: 'I’ve already seen 7 moves ahead.' },
     ],
     paatiCaptureBig: [
-      { t: 'Aaha! Ellam Paati kitta vandhuduchu!', e: 'Aha! All of it comes to Paati!' },
+      { t: 'Aaha! Ellam Ammachi kitta vandhuduchu!', e: 'Aha! All of it comes to Ammachi!' },
       { t: 'Ennoda kai raasi paathiyaa?', e: 'See my lucky hand?' },
       { t: 'Idhu dhaan anubavam kanna. Notes eduthuko.', e: 'That’s experience. Take notes.' },
       { t: 'Kaakka kaakka… ellam en kooda!', e: 'Mine, all mine!' },
@@ -43,7 +43,7 @@
     ],
     youCaptureSmall: [
       { t: 'Paravaala, konjam vittu kudukkaren. Nee chellam.', e: 'Fine, I’ll let you have a little.' },
-      { t: 'Avlo dhaanaa? Paati bayandhutten nu nenachen.', e: 'That’s all? I thought I should be scared.' },
+      { t: 'Avlo dhaanaa? Ammachi bayandhutten nu nenachen.', e: 'That’s all? I thought I should be scared.' },
     ],
     youNothing: [
       { t: 'Onnum kidaikkalaiyaa? Aiyo paavam.', e: 'Got nothing? Poor thing.' },
@@ -73,21 +73,21 @@
     ],
     wrongSide: [
       { t: 'Hey hey, adhu en kuzhi! Kai vekkaadha.', e: 'Hey, that’s my pit! Hands off.' },
-      { t: 'Mel row Paati-odadhu. Keela unnodadhu. Purinjudhaa?', e: 'Top row is mine. Bottom is yours. Got it?' },
+      { t: 'Andha pakkam Ammachi-odadhu. Indha pakkam unnodadhu. Purinjudhaa?', e: 'That side is mine. This side is yours. Got it?' },
     ],
     winning: [
-      { t: 'Score paaru kanna… Paati dhaan munnaadi.', e: 'Look at the score… Paati is ahead.' },
+      { t: 'Score paaru kanna… Ammachi dhaan munnaadi.', e: 'Look at the score… Ammachi is ahead.' },
     ],
     losing: [
       { t: 'Seri seri, ippo dhaan warm-up mudinjudhu.', e: 'Okay okay, the warm-up just ended.' },
     ],
     youWin: [
-      { t: 'Sabaash! Paati-ye jeyichitta. Indha, oru laddu saapdu.', e: 'Bravo! You beat Paati. Here, have a laddu.' },
+      { t: 'Sabaash! Ammachi-ye jeyichitta. Indha, oru laddu saapdu.', e: 'Bravo! You beat Ammachi. Here, have a laddu.' },
       { t: 'Seri seri, indha thadava nee jeyichita. Adutha thadava paathukaren.', e: 'Fine, you won this time. Next time, we’ll see.' },
       { t: 'Unga thaatha kooda ennai jeyichadhu illa! Romba perumai.', e: 'Even your grandpa never beat me! So proud.' },
     ],
     paatiWin: [
-      { t: 'Paati kitta vilayaadina ippadi dhaan. Innoru round?', e: 'That’s what happens when you play Paati. Another?' },
+      { t: 'Ammachi kitta vilayaadina ippadi dhaan. Innoru round?', e: 'That’s what happens when you play Ammachi. Another?' },
       { t: 'Kavalai padaadha kanna, 70 varusha practice idhu.', e: 'Don’t worry, this is 70 years of practice.' },
       { t: 'Jeyichutten! Ippo poi homework pannu.', e: 'I won! Now go do your homework.' },
     ],

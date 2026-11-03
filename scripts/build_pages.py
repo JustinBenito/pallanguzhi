@@ -71,11 +71,11 @@ def img(src, alt, caption="", w=1280, h=720, eager=False):
     return (f'<figure><img src="{src}" alt="{html.escape(alt)}" width="{w}" height="{h}" '
             f'loading="{"eager" if eager else "lazy"}" decoding="async" />{cap}</figure>')
 
-def cta(text="Learn by playing. Sheila Paati teaches you the rules in two minutes, then tries to beat you.", h="Play Pallanguzhi now, free"):
+def cta(text="Learn by playing. Sheila Ammachi teaches you the rules in two minutes, then tries to beat you.", h="Play Pallanguzhi now, free"):
     return f'''<aside class="cta">
-  <img src="/assets/img/sheila-paati.webp" alt="Sheila Paati, the grandmother you play Pallanguzhi against" width="96" height="96" loading="lazy" />
+  <img src="/assets/img/sheila-paati.webp" alt="Sheila Ammachi, the grandmother you play Pallanguzhi against" width="96" height="96" loading="lazy" />
   <div><h3>{h}</h3><p>{text}</p>
-  <a class="play-btn" href="/#play">▶ Play vs Sheila Paati</a> &nbsp; <a class="play-btn" href="/#learn" style="background:var(--paper);color:var(--ink)!important">Interactive tutorial</a></div>
+  <a class="play-btn" href="/#play">▶ Play vs Sheila Ammachi</a> &nbsp; <a class="play-btn" href="/#learn" style="background:var(--paper);color:var(--ink)!important">Interactive tutorial</a></div>
 </aside>'''
 
 def note(t):
@@ -161,7 +161,7 @@ HOWTO_FAQ = [
     ("Which direction do you sow in Pallanguzhi?", "Anticlockwise: left to right along your own row, then right to left along your opponent’s row."),
     ("How do you win Pallanguzhi?", "Collect more seeds than your opponent. With 70 seeds, more than 35 wins. The round ends when the player to move has no seeds on their row."),
     ("Is Pallanguzhi the same as mancala?", "Pallanguzhi is a member of the mancala family, like Oware and Kalah, but it has its own rules, including relay sowing, capturing past an empty pit and the pasu rule."),
-    ("Can I play Pallanguzhi online?", "Yes. You can play Pallanguzhi online for free at pallanguzhi.com against Sheila Paati, an AI grandmother with three difficulty levels and a built-in interactive tutorial."),
+    ("Can I play Pallanguzhi online?", "Yes. You can play Pallanguzhi online for free at pallanguzhi.com against Sheila Ammachi, an AI grandmother with three difficulty levels and a built-in interactive tutorial."),
 ]
 
 PAGES.append(dict(
@@ -174,7 +174,7 @@ PAGES.append(dict(
     description="The history of Pallanguzhi, the traditional Tamil mancala game: its roots, carved boards, manjadi seeds, festivals and the women who kept it alive.",
     lede="Long before screens, Tamil homes had a game of many pits. Pallanguzhi has been passed down from grandmothers to grandchildren for generations, and its story is tied up with festivals, kitchens, courtyards and counting.",
     body=lambda: f"""
-{img("/assets/img/pallanguzhi-online-home.webp", "Pallanguzhi online home screen with banana trees, lotus flowers and Sheila Paati", "Pallanguzhi, reimagined for the browser.", eager=True)}
+{img("/assets/img/pallanguzhi-online-home.webp", "Pallanguzhi online home screen with banana trees, lotus flowers and Sheila Ammachi", "Pallanguzhi, reimagined for the browser.", eager=True)}
 
 <h2>Part of the world’s oldest game family</h2>
 <p>Pallanguzhi is a <strong>mancala</strong> game: a family of “sowing” games played across Africa, the Middle East, South and Southeast Asia. Mancala games are among the oldest board games still played. Carved boards with rows of pits have been found at historic sites in East Africa and the Middle East, and the games travelled along trade routes across the Indian Ocean.</p>
@@ -205,7 +205,7 @@ PAGES.append(dict(
 
 <h2>Pallanguzhi today</h2>
 <p>Like many traditional games, Pallanguzhi faded as families moved to apartments and phones. It is now enjoying a revival: craft stores sell new boards, schools use it to teach counting, and families bring it out during Pongal and summer holidays. This site is part of that revival. It’s a free, browser-based Pallanguzhi you can play in a minute, with a grandmother who teaches you as you go.</p>
-{cta("Play the game your grandmother played, and see if you can beat Sheila Paati, unbeaten since 1952.")}
+{cta("Play the game your grandmother played, and see if you can beat Sheila Ammachi, unbeaten since 1950.")}
 """,
 ))
 
@@ -246,8 +246,8 @@ PAGES.append(dict(
 <p>The round ends when the player to move has an empty row, and remaining seeds go to the owner of each row. Near the end, <strong>keeping seeds on your own row</strong> is worth points. Avoid moves that shovel your last seeds onto your opponent’s side.</p>
 
 <h2>9. Practise against a stronger player</h2>
-<p>The fastest way to improve is to lose to someone better and notice why. Sheila Paati has three moods: <em>Chellam</em> (easy), <em>Konjam serious</em> (medium) and <em>Paati mode</em>, which looks many moves ahead.</p>
-{cta("Try these tips against Sheila Paati. Start on Chellam, then move up to Paati mode when you’re feeling brave.", "Put the tips to work")}
+<p>The fastest way to improve is to lose to someone better and notice why. Sheila Ammachi has three moods: <em>Chellam</em> (easy), <em>Konjam serious</em> (medium) and <em>Ammachi mode</em>, which looks many moves ahead.</p>
+{cta("Try these tips against Sheila Ammachi. Start on Chellam, then move up to Ammachi mode when you’re feeling brave.", "Put the tips to work")}
 <p>New to the game? Start with <a href="/how-to-play-pallanguzhi">how to play Pallanguzhi</a>.</p>
 """,
 ))
@@ -396,8 +396,8 @@ PAGES.append(dict(
 </ul>
 
 <h2>ஆன்லைனில் இலவசமாக விளையாடுங்கள்</h2>
-<p>பலகை இல்லையா? கவலை வேண்டாம். ஷீலா பாட்டியுடன் <a href="/#play">இங்கே இலவசமாக விளையாடலாம்</a>. அவர் விதிகளையும் <a href="/#learn">சொல்லித் தருவார்</a>.</p>
-{cta("ஷீலா பாட்டி 1952-ல் இருந்து தோற்றதே இல்லை. நீங்கள் வெல்வீர்களா?", "இப்போதே விளையாடுங்கள்")}
+<p>பலகை இல்லையா? கவலை வேண்டாம். ஷீலா அம்மாச்சியுடன் <a href="/#play">இங்கே இலவசமாக விளையாடலாம்</a>. அவர் விதிகளையும் <a href="/#learn">சொல்லித் தருவார்</a>.</p>
+{cta("ஷீலா அம்மாச்சி 1950-ல் இருந்து தோற்றதே இல்லை. நீங்கள் வெல்வீர்களா?", "இப்போதே விளையாடுங்கள்")}
 <p>English: <a href="/how-to-play-pallanguzhi">How to play Pallanguzhi</a> · <a href="/pallanguzhi-history">History</a> · <a href="/pallanguzhi-strategy">Strategy</a></p>
 """,
 ))
@@ -557,7 +557,7 @@ def build_hub():
     <p class="lede">{p['lede']}</p>
     <a class="play-btn" href="/#learn">▶ Two-minute interactive tutorial</a>
   </div>
-  {img("/assets/img/pallanguzhi-tutorial.webp", "Sheila Paati's interactive Pallanguzhi tutorial", "Paati’s pathshala: an interactive tutorial that teaches the rules on a real board.", eager=True)}
+  {img("/assets/img/pallanguzhi-tutorial.webp", "Sheila Ammachi's interactive Pallanguzhi tutorial", "Ammachi’s pathshala: an interactive tutorial that teaches the rules on a real board.", eager=True)}
   <div class="related">{cards}</div>
   {cta()}
 </main>""" + footer()
@@ -593,9 +593,9 @@ def write(rel, text):
         f.write(text)
     print("wrote", rel)
 
-OG_VOICE = {  # Paati's mood + line on each page's share image
+OG_VOICE = {  # Ammachi's mood + line on each page's share image
     "": ("happy", "“Vaa kanna, oru game aadalaam!”"),
-    "learn": ("happy", "“Paati solli tharen, vaa!”"),
+    "learn": ("happy", "“Ammachi solli tharen, vaa!”"),
     "how-to-play-pallanguzhi": ("normal", "“Rendu nimisham dhaan. Easy!”"),
     "pallanguzhi-strategy": ("smug", "“Ennoda secrets ellam inga.”"),
     "pallanguzhi-history": ("happy", "“En paati-yum idhu dhaan aadinaanga!”"),
