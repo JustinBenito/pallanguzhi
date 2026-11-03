@@ -83,7 +83,7 @@
     ],
     youWin: [
       { t: 'Sabaash kanna! Nee ennai vida nalla aadura. Romba perumai!', e: 'Bravo, dear! You’ve become better than me. So proud!' },
-      { t: 'Aiyo, en student ennaiye mishchitta! Nee ippo Ammachi-ah vida better.', e: 'My own student beat me! You’re better than Ammachi now.' },
+      { t: 'Aiyo, en student ennaiye minjitta! Nee ippo Ammachi-ah vida better.', e: 'My own student beat me! You’re better than Ammachi now.' },
       { t: 'Unga thaatha kooda ennai jeyichadhu illa! Nee ennai vida perusaa aayitta.', e: 'Even your grandpa never beat me! You’ve outgrown me.' },
     ],
     paatiWin: [
