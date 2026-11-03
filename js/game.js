@@ -704,14 +704,14 @@
     const [y, p] = G.state.store;
     const res = y > p ? 'win' : y < p ? 'lose' : 'tie';
     const line = PZ.paatiLine(res === 'win' ? 'youWin' : res === 'lose' ? 'paatiWin' : 'tie');
-    const mood = res === 'win' ? 'shock' : res === 'lose' ? 'happy' : 'smug';
+    const mood = res === 'win' ? 'happy' : res === 'lose' ? 'happy' : 'smug';
     say(line, mood, { moodMs: 0 });
     narrate(`Round over — you <b>${y}</b>, Ammachi <b>${p}</b>.`, 'Round over');
     sfx.fanfare(res !== 'lose');
 
     const end = $('#end');
-    $('.end-face .paati').dataset.mood = res === 'win' ? 'sad' : res === 'lose' ? 'happy' : 'smug';
-    $('.end-kicker').textContent = res === 'win' ? 'Ammachi is shocked' : res === 'lose' ? 'Ammachi wins, obviously' : 'Equal-equal';
+    $('.end-face .paati').dataset.mood = res === 'win' ? 'happy' : res === 'lose' ? 'happy' : 'smug';
+    $('.end-kicker').textContent = res === 'win' ? 'Ammachi is so proud' : res === 'lose' ? 'Ammachi wins, obviously' : 'Equal-equal';
     $('.end-title').textContent = res === 'win' ? 'You beat Ammachi!' : res === 'lose' ? 'Ammachi jeyichitaanga!' : 'Samam! A tie.';
     $('[data-end="0"]').textContent = y;
     $('[data-end="1"]').textContent = p;

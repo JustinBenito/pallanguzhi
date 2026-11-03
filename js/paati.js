@@ -82,9 +82,9 @@
       { t: 'Seri seri, ippo dhaan warm-up mudinjudhu.', e: 'Okay okay, the warm-up just ended.' },
     ],
     youWin: [
-      { t: 'Sabaash! Ammachi-ye jeyichitta. Indha, oru laddu saapdu.', e: 'Bravo! You beat Ammachi. Here, have a laddu.' },
-      { t: 'Seri seri, indha thadava nee jeyichita. Adutha thadava paathukaren.', e: 'Fine, you won this time. Next time, we’ll see.' },
-      { t: 'Unga thaatha kooda ennai jeyichadhu illa! Romba perumai.', e: 'Even your grandpa never beat me! So proud.' },
+      { t: 'Sabaash kanna! Nee ennai vida nalla aadura. Romba perumai!', e: 'Bravo, dear! You’ve become better than me. So proud!' },
+      { t: 'Aiyo, en student ennaiye mishchitta! Nee ippo Ammachi-ah vida better.', e: 'My own student beat me! You’re better than Ammachi now.' },
+      { t: 'Unga thaatha kooda ennai jeyichadhu illa! Nee ennai vida perusaa aayitta.', e: 'Even your grandpa never beat me! You’ve outgrown me.' },
     ],
     paatiWin: [
       { t: 'Ammachi kitta vilayaadina ippadi dhaan. Innoru round?', e: 'That’s what happens when you play Ammachi. Another?' },
