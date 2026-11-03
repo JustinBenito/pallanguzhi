@@ -390,10 +390,11 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   z-index: 3;
 }
 .bubble::before {
-  content: ''; position: absolute; left: -22px; bottom: 18px; width: 26px; height: 22px;
+  /* a rotated square cut on its diagonal: the outlined half pokes out over the bubble border */
+  content: ''; position: absolute; left: -12px; bottom: 24px; width: 22px; height: 22px;
   background: var(--paper-l); border-left: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  transform: skewY(-18deg);
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+  transform: rotate(45deg);
 }
 .bubble.pop { animation: pop .45s var(--ease-spring); }
 @keyframes pop { 0% { scale: .9; opacity: .4; } 100% { scale: 1; opacity: 1; } }
@@ -864,9 +865,9 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .portrait .np-mood { font-size: 11px; }
 .portrait .bubble { order: 3; width: 100%; min-height: 0; margin-top: 30px; padding: 16px 20px; border-radius: 20px; }
 .portrait .bubble::before {
-  left: 74px; top: -13px; bottom: auto; width: 22px; height: 22px;
+  left: 74px; top: -13px; bottom: auto;
   border: 0; border-left: 2.5px solid var(--ink); border-top: 2.5px solid var(--ink);
-  clip-path: none; transform: rotate(45deg);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 .portrait .bubble-t { font-size: 23px; }
 .portrait .bubble-e { font-size: 16.5px; }

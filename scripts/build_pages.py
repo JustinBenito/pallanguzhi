@@ -557,7 +557,7 @@ def build_hub():
     <p class="lede">{p['lede']}</p>
     <a class="play-btn" href="/#learn">▶ Two-minute interactive tutorial</a>
   </div>
-  {img("/assets/img/pallanguzhi-tutorial.webp", "Sheila Ammachi's interactive Pallanguzhi tutorial", "Ammachi’s pathshala: an interactive tutorial that teaches the rules on a real board.", eager=True)}
+  {img("/assets/img/pallanguzhi-tutorial.webp", "Sheila Ammachi's interactive Pallanguzhi tutorial", "Ammachi’s palgalaikazhagam: an interactive tutorial that teaches the rules on a real board.", eager=True)}
   <div class="related">{cards}</div>
   {cta()}
 </main>""" + footer()

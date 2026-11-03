@@ -729,14 +729,14 @@
     if (location.hash) history.replaceState(null, '', location.pathname);
   }
 
-  /* ---------------- tutorial: Ammachi's pathshala ---------------- */
+  /* ---------------- tutorial: Ammachi's palgalaikazhagam ---------------- */
   const val = (v) => (typeof v === 'function' ? v() : v);
   const P = (you, paati, store = [0, 0]) => ({ pits: [...you, ...paati], store, turn: 0, over: false });
   const TUT = [
     {
       state: P([5, 5, 5, 5, 5, 5, 5], [5, 5, 5, 5, 5, 5, 5]),
       say: { t: 'Vaa kanna! Rendu nimishathula Pallanguzhi solli tharen.', e: 'Come! I’ll teach you Pallanguzhi in two minutes.' },
-      narr: 'Welcome to <b>Ammachi’s pathshala</b>. Press <b>Next</b> in Ammachi’s speech bubble to continue.',
+      narr: 'Welcome to <b>Ammachi’s palgalaikazhagam</b>. Press <b>Next</b> in Ammachi’s speech bubble to continue.',
     },
     {
       state: P([5, 5, 5, 5, 5, 5, 5], [5, 5, 5, 5, 5, 5, 5]),

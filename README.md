@@ -1,8 +1,8 @@
 # Pallanguzhi · play with Sheila Ammachi
 
-The old Tamil seed game on a carved wooden board, played against Sheila Ammachi, an 86-year-old who has been unbeaten since 1950 and talks trash in Tanglish.
+The old Tamil seed game on a carved wooden board, played against Sheila Ammachi, a 76-year-old who has been unbeaten since 1950 and talks trash in Tanglish.
 
-- Hands-on 2-minute tutorial (Ammachi's pathshala) and an illustrated rules sheet
+- Hands-on 2-minute tutorial (Ammachi's palgalaikazhagam) and an illustrated rules sheet
 - Three difficulty levels: Chellam, Konjam serious, Ammachi mode
 - Manjadi, puli kottai or sozhi seeds
 - Live narration of every sow, relay, capture and pasu
