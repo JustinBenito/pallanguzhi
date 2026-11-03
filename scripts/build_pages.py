@@ -468,6 +468,8 @@ def head(p, extra_ld):
 <link rel="stylesheet" href="{FONTS}" />
 <link rel="stylesheet" href="/css/article.css" />
 <script type="application/ld+json">{json.dumps(extra_ld, ensure_ascii=False)}</script>
+<script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>"""
 
 NAV = [("how-to-play-pallanguzhi", "How to play"), ("pallanguzhi-strategy", "Strategy"),
