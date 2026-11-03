@@ -35,6 +35,13 @@
     <path d="M24 30 C24 24 30 22 33 26 C36 30 31 34 28 31"/></g>
     <g fill="#8E3420"><circle cx="10" cy="10" r="2.6"/><circle cx="22" cy="22" r="1.6"/><circle cx="50" cy="10" r="1.6"/><circle cx="10" cy="50" r="1.6"/></g></svg>`;
   $$('.orn').forEach((o) => (o.innerHTML = ORN));
+
+  // Touch devices: skip the live SVG noise filters. Ammachi animates constantly, so a filter on her
+  // means re-running the noise every frame, and the full-screen frame filter can push iOS Safari
+  // past its graphics memory, which makes layers drop out and the mustard background flash through.
+  const LITE = matchMedia('(pointer: coarse)').matches;
+  document.body.classList.toggle('lite', LITE);
+  if (LITE) $$('.p-root[filter]').forEach((g) => g.removeAttribute('filter'));
   $('.t-icon.friends').innerHTML = `<svg viewBox="0 0 120 66"><g stroke="#1E1714" stroke-width="2.5" fill="#E7A33A"><circle cx="42" cy="22" r="13"/><path d="M18 62c2-16 12-24 24-24s22 8 24 24z"/></g><g stroke="#1E1714" stroke-width="2.5" fill="#B4462B"><circle cx="80" cy="22" r="13"/><path d="M56 62c2-16 12-24 24-24s22 8 24 24z"/></g></svg>`;
 
 
@@ -68,6 +75,7 @@
       frameKey = W + 'x' + H;
       $('.frame', stage)?.remove();
       stage.insertAdjacentHTML('beforeend', A.frame(W, H));
+      if (LITE) $$('.frame [filter]', stage).forEach((el) => el.remove());
     }
     layoutBoard(H - 32);
   }
@@ -139,9 +147,9 @@
     el.dataset.i = i;
     el.setAttribute('role', 'button');
     el.setAttribute('aria-label', (i < 7 ? 'Your kuzhi ' + (i + 1) : 'Ammachi’s kuzhi ' + (i - 6)));
-    el.innerHTML = '<div class="seeds"></div><span class="count">5</span>';
+    el.innerHTML = '<i class="glow"></i><div class="seeds"></div><span class="count">5</span>';
     pitsWrap.appendChild(el);
-    pitEls.push({ el, seeds: el.firstChild, count: el.lastChild });
+    pitEls.push({ el, seeds: $('.seeds', el), count: $('.count', el) });
   }
   pitsWrap.insertAdjacentHTML('afterbegin', '<div class="row-glow top"></div><div class="row-glow bottom"></div>');
   const storeEls = [0, 1].map((w) => {
@@ -158,6 +166,8 @@
     return s;
   }
 
+  const bump = (el, ms) => el.animate([{ scale: 1 }, { scale: 1.35, offset: 0.4 }, { scale: 1 }], { duration: ms, easing: 'ease-out' });
+
   function setPit(i, n, dropLast) {
     const box = pitEls[i].seeds;
     while (box.children.length > n) box.lastChild.remove();
@@ -169,12 +179,12 @@
     const c = pitEls[i].count;
     if (c.textContent !== String(n)) {
       c.textContent = n;
-      c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+      bump(c, 350);
     }
     c.classList.toggle('zero', n === 0);
   }
 
-  function setStore(w, n, bump) {
+  function setStore(w, n, doBump) {
     const s = storeEls[w];
     const box = s.seeds;
     const show = Math.min(n, 70);
@@ -182,7 +192,7 @@
     while (box.children.length < show) box.appendChild(makeSeed(storeSlot(w, box.children.length)));
     s.n.textContent = n;
     s.label.textContent = n;
-    if (bump) { s.n.classList.remove('bump'); void s.n.offsetWidth; s.n.classList.add('bump'); }
+    if (doBump) bump(s.n, 500);
   }
 
   function renderAll() {
@@ -267,9 +277,15 @@
     bAct.innerHTML = '';
     paatiEl.classList.add('talking');
     const txt = line.t;
+    // the untyped rest sits there invisibly so the bubble is full size from the first letter
+    const typed = document.createTextNode('');
+    const rest = document.createElement('span');
+    rest.className = 'bubble-rest';
+    bT.replaceChildren(typed, rest);
     for (let k = 1; k <= txt.length; k += 2) {
       if (id !== sayId) return;
-      bT.textContent = txt.slice(0, k);
+      typed.data = txt.slice(0, k);
+      rest.textContent = txt.slice(k);
       await sleep(18);
     }
     bT.textContent = txt;
@@ -330,6 +346,7 @@
 
   async function animate(events, mover) {
     G.animating = true;
+    G.animStart = performance.now();
     G.skip = false;
     let drops = 0, chainQuip = false;
     const sum = { cap: [0, 0], pasu: [0, 0], nothing: false, over: false, relays: 0 };
@@ -493,7 +510,8 @@
 
   function flash(i) {
     const el = pitEls[i].el;
-    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+    // fades from full glow back to whatever the pit's state says (off, or lit if it's a target)
+    $('.glow', el).animate([{ opacity: 1, offset: 0 }], { duration: 700, easing: 'cubic-bezier(.2, .9, .25, 1)' });
   }
   function mark(i, cls) { pitEls[i].el.classList.add(cls); }
   function clearMarks() {
@@ -546,7 +564,7 @@
   });
 
   $('#screen-game').addEventListener('pointerdown', (e) => {
-    if (G.animating && !e.target.closest('.g-tools, .bubble')) G.skip = true;
+    if (G.animating && performance.now() - G.animStart > 600 && !e.target.closest('.g-tools, .bubble')) G.skip = true;
   });
 
   function onPit(i) {

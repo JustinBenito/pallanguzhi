@@ -72,9 +72,10 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   position: absolute; inset: 16px;
   overflow: hidden;
   opacity: 0; visibility: hidden;
-  transition: opacity .5s var(--ease-out), visibility 0s .5s;
+  /* the outgoing screen stays opaque underneath until the incoming one has faded in */
+  transition: opacity 0s .5s, visibility 0s .5s;
 }
-.screen.is-active { opacity: 1; visibility: visible; transition: opacity .5s var(--ease-out); }
+.screen.is-active { opacity: 1; visibility: visible; z-index: 1; transition: opacity .5s var(--ease-out); }
 
 .paper-grain { position: absolute; inset: 0; background: var(--grain-paper); opacity: .55; mix-blend-mode: multiply; pointer-events: none; }
 
@@ -399,6 +400,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .bubble.pop { animation: pop .45s var(--ease-spring); }
 @keyframes pop { 0% { scale: .9; opacity: .4; } 100% { scale: 1; opacity: 1; } }
 .bubble-t { margin: 0; font-family: var(--serif); font-weight: 560; font-size: 21px; line-height: 1.28; font-variation-settings: 'SOFT' 100, 'opsz' 24; min-height: 27px; }
+.bubble-rest { visibility: hidden; }
 .bubble-e { margin: 6px 0 0; font-size: 14px; font-style: italic; color: #7a6656; opacity: 0; transition: opacity .4s; }
 .bubble-e.show { opacity: 1; }
 .bubble-actions { display: flex; gap: 10px; margin-top: 12px; }
@@ -460,16 +462,20 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 /* turned-wood kuzhi: a round bowl with concentric lathe rings around the rim */
 .pit {
   width: 90px; height: 90px; margin: -45px 0 0 -45px;
-  --glow: 0 0 0 0 transparent;
   box-shadow:
     inset 0 11px 16px rgba(0, 0, 0, .74),
     inset 0 -3px 6px rgba(255, 180, 120, .12),
     0 0 0 2.5px rgba(0, 0, 0, .3),
     0 0 0 4.5px rgba(255, 205, 160, .13),
     0 0 0 7.5px rgba(0, 0, 0, .16),
-    0 0 0 9px rgba(255, 205, 160, .07),
-    var(--glow);
-  transition: box-shadow .3s, transform .2s var(--ease-spring);
+    0 0 0 9px rgba(255, 205, 160, .07);
+  transition: transform .2s var(--ease-spring);
+}
+.pit .glow {
+  position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  --gc: rgba(231, 163, 58, .55); --gh: rgba(244, 196, 106, .4);
+  box-shadow: 0 0 0 11px var(--gc), 0 0 30px 10px var(--gh);
+  opacity: 0; transition: opacity .3s;
 }
 .pit::before {
   content: ''; position: absolute; inset: 9px; border-radius: 50%; pointer-events: none;
@@ -486,8 +492,6 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   box-shadow: 0 2px 0 var(--ink);
   z-index: 3;
 }
-.store-n.bump { animation: bump .5s var(--ease-spring); }
-@keyframes bump { 40% { scale: 1.35; } }
 .seeds, .store-seeds { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
 
 .pit .count {
@@ -502,7 +506,6 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .pit.top .count { top: -8px; }
 .pit.bottom .count { bottom: -8px; }
 .pit .count.zero { background: #6b3a22; color: #d9b98c; }
-.pit .count.bump { animation: bump .35s var(--ease-spring); }
 
 .pit.playable { cursor: pointer; }
 .pit.playable::after {
@@ -511,13 +514,14 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   animation: spin 22s linear infinite;
 }
 @keyframes spin { to { rotate: 360deg; } }
-.pit.playable:hover { transform: translateY(-2px); --glow: 0 0 0 11px rgba(231, 163, 58, .55), 0 0 30px 10px rgba(244, 196, 106, .4); }
-.pit.flash { animation: pitFlash .7s var(--ease-out); }
-@keyframes pitFlash { 0% { --glow: 0 0 0 11px rgba(255, 228, 150, .8), 0 0 34px 12px rgba(255, 220, 140, .7); } }
-.pit.target { --glow: 0 0 0 11px rgba(255, 228, 150, .65), 0 0 30px 10px rgba(255, 220, 140, .5); }
-.pit.mark-cap { --glow: 0 0 0 11px rgba(127, 212, 139, .85), 0 0 34px 12px rgba(127, 212, 139, .55); }
-.pit.mark-empty { --glow: 0 0 0 11px rgba(243, 230, 204, .55); }
-.pit.mark-pasu { --glow: 0 0 0 11px rgba(255, 156, 110, .9), 0 0 36px 14px rgba(255, 140, 90, .6); }
+@media (hover: hover) {
+  .pit.playable:hover { transform: translateY(-2px); }
+  .pit.playable:hover .glow { opacity: 1; }
+}
+.pit.target .glow { --gc: rgba(255, 228, 150, .65); --gh: rgba(255, 220, 140, .5); opacity: 1; }
+.pit.mark-cap .glow { --gc: rgba(127, 212, 139, .85); --gh: rgba(127, 212, 139, .55); opacity: 1; }
+.pit.mark-empty .glow { --gc: rgba(243, 230, 204, .55); --gh: transparent; opacity: 1; }
+.pit.mark-pasu .glow { --gc: rgba(255, 156, 110, .9); --gh: rgba(255, 140, 90, .6); opacity: 1; }
 .pit.dim { opacity: .45; }
 .pv { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px; border-radius: 50%; background: var(--mustard-l); box-shadow: 0 0 10px var(--mustard-l); opacity: .85; pointer-events: none; animation: pv .3s var(--ease-spring) both; z-index: 4; }
 .pv.last { width: 16px; height: 16px; margin: -8px; background: #fff3c4; }
@@ -800,8 +804,6 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .tool:active, .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
   .chips button:hover { background: none; }
   .chips button.on:hover { background: var(--ink); }
-  .pit.playable:hover { transform: none; --glow: 0 0 0 0 transparent; }
-  .pit.playable:active { --glow: 0 0 0 11px rgba(231, 163, 58, .55), 0 0 30px 10px rgba(244, 196, 106, .4); }
 }
 @media (pointer: coarse) {
   /* cheaper paint on phones: no blur behind sheets, no live filters on animated art */
@@ -809,6 +811,17 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .t-banana, .t-lotus { filter: none; will-change: transform; }
   .paati-slot svg { filter: none; }
 }
+/* .lite is set from JS on touch devices: no blend modes (each one forces an extra offscreen layer),
+   and no endless decorative animations that repaint big SVGs every frame */
+.lite .paper-grain, .lite .wall-grain, .lite .board-grain, .lite .mini-grain, .lite .lamp-cone { mix-blend-mode: normal; }
+.lite .paper-grain { opacity: .35; }
+.lite .wall-grain { opacity: .6; }
+.lite .board-grain { opacity: .7; }
+.lite .table-grain { display: none; }
+.lite .paati .p-breathe, .lite .paati .p-jimikki, .lite .paati .p-mookuthi circle:last-child,
+.lite .lamp-swing, .lite .lamp-glow, .lite .lamp-cone, .lite .lamp-bulb,
+.lite .pit.playable::after { animation: none; }
+.lite .paati .p-steam { display: none; }
 
 /* ==========================================================================
    PORTRAIT (phones held upright) — stage is 720 wide × phone-height tall
@@ -902,8 +915,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     0 0 0 2.5px rgba(0, 0, 0, .3),
     0 0 0 4.5px rgba(255, 205, 160, .13),
     0 0 0 7.5px rgba(0, 0, 0, .16),
-    0 0 0 9px rgba(255, 205, 160, .07),
-    var(--glow);
+    0 0 0 9px rgba(255, 205, 160, .07);
 }
 .portrait .store {
   box-shadow: inset 12px 0 18px rgba(0, 0, 0, .72), inset -3px 0 6px rgba(255, 180, 120, .14),
